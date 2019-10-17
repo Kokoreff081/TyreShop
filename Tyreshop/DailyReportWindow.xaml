@@ -1,0 +1,75 @@
+﻿<Window x:Class="Tyreshop.DailyReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tyreshop"
+        mc:Ignorable="d"
+        Title="Дневной отчет" Height="450" Width="1720">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+            <Label Content="Сумма списания"/>
+            <TextBox Name="NumberCashOff" Width="70" Margin="5,0,5,0"/>
+            <Label Content="Причина списания"/>
+            <TextBox Name="CommentCashOff" Width="300" Margin="5,0,5,0"/>
+            <Button Name="CashOff" Content="Списать наличные" Click="CashOff_Click" Width="150" Margin="5,0,5,0"/>
+        </StackPanel>
+        <DataGrid Name="Report" Grid.Row="1" CanUserAddRows="False" AutoGenerateColumns="False">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PayType}" Value="Безналичный расчет">
+                            <Setter Property="Background" Value="Violet"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding OperationType}" Value="Списание товара">
+                            <Setter Property="Background" Value="LightGray"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding OperationType}" Value="Списание наличных">
+                            <Setter Property="Background" Value="LightBlue"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding OperationType}" Value="Услуга">
+                            <Setter Property="Background" Value="Orange"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CardToTotalSum}" Value="0">
+                            <Setter Property="Background" Value="Firebrick"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер операции" Binding="{Binding SaleNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Тип операции" Binding="{Binding OperationType}"/>
+                <DataGridTextColumn Header="Время" Binding="{Binding Time}"/>
+                <DataGridTextColumn Header="Склад" Binding="{Binding StoreHouse}"/>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}"/>
+                <DataGridTextColumn Header="Тип оплаты" Binding="{Binding PayType}"/>
+                <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}"/>
+                <DataGridTextColumn Header="Товар/услуга" Binding="{Binding ProdName}"/>
+                <DataGridTextColumn Header="Комментарий" Binding="{Binding Comment}"/>
+                <DataGridTemplateColumn Header="Менеджер">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Name="managerCombo" ItemsSource="{Binding User}" SelectedValuePath="UserId" DisplayMemberPath="UserName" SelectedValue="{Binding User.UserId}" Text="{Binding UserName}" Tag="{Binding SaleNumber}" SelectionChanged="ManagerCombo_SelectionChanged"></ComboBox>   
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Удаление продажи" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Удалить продажу" Name="DelSale" Click="DelSale_Click" Width="200" Tag="{Binding TagToBtn}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="2"  VerticalAlignment="Center">
+            <DatePicker Name="SelectDate" SelectedDateChanged="SelectDate_SelectedDateChanged" Width="150" Margin="5,0,5,0"/>
+            <Button Name="GenerateReport" Content="Экспорт отчета в Excel" Click="GenerateReport_Click" Margin="5,0,5,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

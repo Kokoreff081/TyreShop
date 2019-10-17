@@ -1,0 +1,121 @@
+﻿<Window x:Class="Tyreshop.SaleFixing"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tyreshop"
+        mc:Ignorable="d"
+        Title="Оформление продаж" Height="650" Width="1100">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" Name="Adding"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Добавление товаров/услуг в чек" Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,5">
+                    <Label Content="Наименование товара" Margin="5,0,5,0"/>
+                    <ComboBox Name="Products" Width="200" Margin="5,0,5,0" SelectionChanged="Products_SelectionChanged" IsTextSearchEnabled="False" StaysOpenOnEdit="True" PreviewKeyUp="Products_KeyUp" IsReadOnly="False" IsEditable="True"/>
+                    <Label Content="Количество"  Margin="5,0,5,0"/>
+                    <TextBox Name="Quantity" Margin="5,0,5,0" Width="50" TextChanged="Quantity_TextChanged" PreviewTextInput="NumberValidationTextBox"/>
+                    <Label Content="Стоимость единицы" Margin="5,0,5,0"/>
+                    <TextBox Name="ProductPrice" Width="50" Margin="5,0,5,0"/>
+                    <Label Content="Оптовая цена" Margin="5,0,5,0"/>
+                    <Label Name="OptPriceLbl" Margin="5,0,5,0"/>
+                    <Label Content="Откуда взят товар:" Margin="5,0,5,0"/>
+                    <ComboBox Name="StorehouseFrom" Width="150" Margin="5,0,5,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Center">
+                    <!--<CheckBox Content="Добавить услуги" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Margin="5,14,5,5" Name="AddService"/>-->
+                    <CheckBox Content="Безналичный расчет" Style="{StaticResource CheckBoxStyle1}" Name="PayTypeCheckBox" Margin="5,5,5,5"/>
+                    <CheckBox Content="На карту" Margin="5,14,5,5" Name="CardPay">
+                        <CheckBox.Style>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=PayTypeCheckBox, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=PayTypeCheckBox, Path=IsChecked}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                    <Label Content="Комментарий" Margin="5,8,5,5"/>
+                    <TextBox Name="OperComment" Width="300" Margin="5,5,5,5"/>
+                    <Label Content="Менеджер:" Margin="5,5,5,5"/>
+                    <ComboBox Name="Manager" Width="200" Margin="5,5,5,5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,5" VerticalAlignment="Center" Name="ServiceSP">
+                    <Label Content="Наименование услуги" Margin="5,0,5,0"/>
+                    <ComboBox Name="Services" Width="150" Margin="5,0,5,0" Height="25"/>
+                    <Label Content="Стоимость услуги" Margin="5,0,5,0"/>
+                    <TextBox Name="ServicePrice" Width="100" Margin="5,0,5,0" Height="25"/>
+                    <CheckBox Content="Безналичный расчет" Style="{StaticResource CheckBoxStyle1}" Name="PayTypeCheckBoxServ" Margin="5,5,5,5"/>
+                    <CheckBox Content="На карту" Margin="5,10,5,10" Name="CardPayServ">
+                        <CheckBox.Style>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=PayTypeCheckBoxServ, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=PayTypeCheckBoxServ, Path=IsChecked}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                    <Label Content="Количество"  Margin="5,5,5,5"/>
+                    <TextBox Name="QuantityServ" Margin="5,0,5,0" Width="50" TextChanged="QuantityServ_TextChanged" PreviewTextInput="NumberValidationTextBox"  Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                    <Label Content="Прочие товары" Margin="5,0,5,0"   Height="25"/>
+                    <TextBox Name="OtherProduct"  Margin="5,0,5,0" Width="200"  Height="25"/>
+                    <Label Content="Стоимость" Margin="5,0,5,0"  Height="25"/>
+                    <TextBox Name="OtherProductPrice" Width="100" Margin="5,0,5,0"  Height="25"/>
+                    <CheckBox Content="Безналичный расчет" Style="{StaticResource CheckBoxStyle1}" Name="PayTypeCheckBoxOtherProduct" Margin="5,5,5,5"  Height="25"/>
+                    <CheckBox Content="На карту" Margin="5,5,5,5" Name="CardPayOtherProduct"  Height="25">
+                        <CheckBox.Style>
+                            <Style TargetType="{x:Type CheckBox}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=PayTypeCheckBoxOtherProduct, Path=IsChecked}" Value="False">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=PayTypeCheckBoxOtherProduct, Path=IsChecked}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                    <TextBox Name="QuantityOtherProduct" Margin="5,0,5,0" Width="50" TextChanged="QuantityOtherProduct_TextChanged" PreviewTextInput="NumberValidationTextBox"  Height="25"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,5">
+                    <Button Content="Добавить в чек" Name="AddToSaleBtn" Click="AddToSaleBtn_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Товары в чеке" Grid.Row="1">
+        <DataGrid CanUserAddRows="False" AutoGenerateColumns="False" Name="DGSaleFix">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding SaleNumber}"/>
+                    <DataGridTextColumn Header="Наименование товара" Binding="{Binding ProdName}"/>
+                    <DataGridTextColumn Header="Дата" Binding="{Binding Date}"/>
+                    <DataGridTextColumn Header="Время" Binding="{Binding Time}"/>
+                    <DataGridTextColumn Header="Ед." Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}"/>
+                    
+                </DataGrid.Columns>
+        </DataGrid>
+        </GroupBox>
+        <GroupBox Header="Операции" Grid.Row="2">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Name="SaleSave" Content="Оформить продажу" Click="SaleSave_Click" Margin="0,0,10,0" Width="200" Height="30" IsEnabled="False"/>
+                <Button Name="PrintSale" Content="Распечатать чек" Click="PrintSale_Click" Margin="10,0,0,0" Width="200" Height="30" IsEnabled="False"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>

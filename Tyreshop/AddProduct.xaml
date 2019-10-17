@@ -1,0 +1,170 @@
+﻿<Window x:Class="Tyreshop.AddProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tyreshop"
+        mc:Ignorable="d"
+        Title="Добавление товара" Height="680" Width="1000" Closing="Window_Closing">
+    <Grid>
+        <DockPanel VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="Добавить категорию товаров" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Наименование категории" Margin="5,0,5,0"/>
+                        <TextBox Name="CategoryName" Margin="5,0,5,0" Width="200"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Добавить производителя">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Категория" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Categories" Margin="5,0,5,0" Width="200"/>
+                            <Label Content="Производитель" Margin="5,0,5,0"/>
+                            <TextBox Name="ManufacturerName" Margin="5,0,5,0" Width="200"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+                            <Button Name="AddManufacturer" Width="300" Content="Добавить" Click="AddManufacturer_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Добавить модель товара">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Категория" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="CategoriesInModels" Margin="5,0,5,0" Width="200" SelectionChanged="CategoriesInModels_SelectionChanged"/>
+                            <Label Content="Производитель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Manufacturers" Margin="5,0,5,0" Width="200"/>
+                            <Label Content="Модель" Margin="5,0,5,0"/>
+                            <TextBox Name="ModelName" Width="200" Margin="5,0,5,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+                            <Button Name="AddModel" Width="300" Content="Добавить" Click="AddModel_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Добавить товар">
+                    <StackPanel Orientation="Vertical">
+                         <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                            <Label Content="Категория" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Categories2" Margin="5,0,5,0" Width="200" SelectionChanged="Categories2_SelectionChanged"/>
+                            <Label Content="Производитель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Manufacturers2" Margin="5,0,5,0" Width="200" IsEnabled="False" SelectionChanged="Manufacturers2_SelectionChanged"/>
+                            <Label Content="Модель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Models" Margin="5,0,5,0" Width="200" IsEnabled="False" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,5,0,5" Name="Tyres">
+                            <GroupBox Header="Размеры">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Ширина" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Width" Margin="5,0,5,0" Width="200"/>
+                                    <Label Content="Высота" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Height" Margin="5,0,5,0" Width="200"/>
+                                    <Label Content="Радиус" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Radius" Margin="5,0,5,0" Width="200"/>
+                                </StackPanel>
+                            </GroupBox>
+                            <GroupBox Header="Параметры">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5" HorizontalAlignment="Center">
+                                        <Label Content="Артикул" Margin="5,0,5,0"/>
+                                        <TextBox Name="Articul" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="ИН" Margin="11.5,0,11.5,0"/>
+                                        <TextBox Name="InCol" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="ИС" Margin="11.5,0,11.5,0"/>
+                                        <TextBox Name="IsCol" Margin="20,0,5,0" Width="100"/>
+                                        <Label Content="Страна" Margin="11.5,0,11.5,0"/>
+                                        <TextBox Name="Country" Margin="20,0,5,0" Width="100"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5" HorizontalAlignment="Center">
+                                        <Label Content="Груз" Margin="5,0,14,0"/>
+                                        <ComboBox Name="Gruz" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="RFT" Margin="11.5,0,11.5,0"/>
+                                        <ComboBox Name="RFT" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="Сезон" Margin="11.5,0,5,0"/>
+                                        <ComboBox Name="Season" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="Шипы" Margin="11.5,0,5,0"/>
+                                        <ComboBox Name="Spikes" Margin="5,0,5,0" Width="100"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                        <Label Content="Закупочная цена" Margin="5,0,5,0"/>
+                                        <TextBox Name="PurchasePrice" Margin="7,0,5,0" Width="100"/>
+                                        <Label Content="Цена" Margin="5,0,5,0"/>
+                                        <TextBox Name="Price" Margin="7,0,5,0" Width="100"/>
+                                        <Label Content="Опт. цена" Margin="5,0,2.5,0"/>
+                                        <TextBox Name="OptPrice" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="Склад" Margin="5,0,2.5,0"/>
+                                        <ComboBox Name="Stores" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="Кол-во" Margin="5,0,2.5,0"/>
+                                        <TextBox Name="Quant" Margin="5,0,5,0" Width="100"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+                            <Button Name="AddProductBtn" Width="300" Content="Добавить" Click="AddProductBtn_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Загрузить список товаров">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="SelectFile" Content="Выбрать файл с товарами" Click="SelectFile_Click" Width="200"/>
+                        <ProgressBar Height="18" Width="200" Name="progressBar" Minimum="0" Maximum="100" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Редактировать/Удалить товар" >
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5" HorizontalAlignment="Center">
+                            <Label Content="Товар" Margin="5,0,5,0"/>
+                            <ComboBox IsReadOnly="False" IsEditable="True" Name="ModelsEdit" Margin="5,0,5,0" Width="200" SelectionChanged="ModelsEdit_SelectionChanged"
+                                      IsTextSearchEnabled="False" StaysOpenOnEdit="True" PreviewKeyUp="ModelsEdit_PreviewKeyUp"/>
+                            <Label Content="Ширина" Margin="5,0,5,0"/>
+                            <ComboBox Name="WidthEdit" Margin="5,0,5,0" Width="75"/>
+                            <Label Content="Высота" Margin="5,0,5,0"/>
+                            <ComboBox Name="HeightEdit" Margin="5,0,5,0" Width="75"/>
+                            <Label Content="Радиус" Margin="5,0,5,0"/>
+                            <ComboBox Name="RadiusEdit" Margin="5,0,5,0" Width="75"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,5,0,5" Name="TyresEdit">
+                            <GroupBox Header="Параметры">
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                        <!--<Label Content="Артикул" Margin="5,0,5,0"/>
+                                        <TextBox Name="Articul" Margin="5,0,5,0" Width="100"/>-->
+                                        <Label Content="ИН" Margin="11.5,0,11.5,0"/>
+                                        <TextBox Name="InColEdit" Margin="5,0,5,0" Width="50"/>
+                                        <Label Content="ИС" Margin="11.5,0,11.5,0"/>
+                                        <TextBox Name="IsColEdit" Margin="11.5,0,5,0" Width="50"/>
+                                        <Label Content="Страна" Margin="11.5,0,11.5,0"/>
+                                        <TextBox Name="CountryEdit" Margin="11.5,0,5,0" Width="100"/>
+                                        <Label Content="Закупочная цена" Margin="5,0,5,0"/>
+                                        <TextBox Name="PurchasePriceEdit" Margin="7,0,5,0" Width="50"/>
+                                        <Label Content="Цена" Margin="5,0,5,0"/>
+                                        <TextBox Name="PriceEdit" Margin="7,0,5,0" Width="50"/>
+                                        <Label Content="Опт. цена" Margin="5,0,2.5,0"/>
+                                        <TextBox Name="OptPriceEdit" Margin="5,0,5,0" Width="50"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+                                        <Label Content="Груз" Margin="5,0,14,0"/>
+                                        <ComboBox Name="GruzEdit" Margin="5,0,5,0" Width="50"/>
+                                        <Label Content="RFT" Margin="11.5,0,11.5,0"/>
+                                        <ComboBox Name="RFTEdit" Margin="5,0,5,0" Width="50"/>
+                                        <Label Content="Сезон" Margin="5,0,5,0"/>
+                                        <ComboBox Name="SeasonEdit" Margin="5,0,5,0" Width="100"/>
+                                        <Label Content="Шипы" Margin="5,0,5,0"/>
+                                        <ComboBox Name="SpikesEdit" Margin="5,0,5,0" Width="50"/>
+                                        <Button Name="EditProductBtn" Width="100" Content="Редактировать" Click="EditProductBtn_Click" Margin="5,0,5,0"/>
+                                        <Button Name="DeleteProductBtn" Width="100" Content="Удалить" Click="DeleteProductBtn_Click" Margin="5,0,5,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                    
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

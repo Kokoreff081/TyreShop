@@ -1,0 +1,20 @@
+﻿<Window x:Class="Tyreshop.AddService"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tyreshop"
+        mc:Ignorable="d"
+        Title="Добавить услугу" Height="110" Width="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="0,5,0,5">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+            <Label Content="Наименование услуги" Margin="5,0,5,0"/>
+            <TextBox Name="ServiceName" Margin="5,0,5,0" Width="200"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+            <Button Name="AddServiceBtn" Width="300" Content="Добавить" Click="AddServiceBtn_Click"/>
+        </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

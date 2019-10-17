@@ -1,0 +1,113 @@
+﻿<Window x:Class="Tyreshop.CapitalizeProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tyreshop"
+        mc:Ignorable="d"
+        Title="Движение товара" Height="700" Width="1100">
+    <Grid>
+        <DockPanel VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="Оприходование:">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                            <Label Content="Категория" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Categories" Margin="5,0,5,0" Width="100" SelectionChanged="Categories_SelectionChanged"/>
+                            <Label Content="Производитель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Manufacturers" Margin="5,0,5,0" Width="100" IsEnabled="False" SelectionChanged="Manufacturers_SelectionChanged"/>
+                            <Label Content="Модель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Models" Margin="5,0,5,0" Width="100" IsEnabled="False" SelectionChanged="Models_SelectionChanged"/>
+                            <Label Content="Ширина" Margin="5,0,5,0"/>
+                            <ComboBox Name="Width" Margin="5,0,5,0" Width="75"/>
+                            <Label Content="Высота" Margin="5,0,5,0"/>
+                            <ComboBox Name="Height" Margin="5,0,5,0" Width="75"/>
+                            <Label Content="Радиус" Margin="5,0,5,0"/>
+                            <ComboBox Name="Radius" Margin="5,0,5,0" Width="75" SelectionChanged="Radius_SelectionChanged"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Name="NewProductIn">
+                            
+                            <Label Content="Склад" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="Storehouses" Margin="5,0,5,0" Width="150" IsEnabled="False" />
+                            <Label Content="Количество:" Margin="5,0,5,0"/>
+                            <TextBox Name="ProductInQuantity" Margin="5,0,5,0" Width="150"/>
+                            <Button Name="InBtn" Content="Оприходовать" Width="150" Click="InBtn_Click" Margin="5,0,5,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <DataGrid Name="Quantities" AutoGenerateColumns="False" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="400">
+                                <DataGrid.Columns>
+                                    <!--<DataGridTextColumn Header="Производитель" Binding="{Binding Manufacturer, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Модель" Binding="{Binding Model, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Ширина" Binding="{Binding Width, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Высота" Binding="{Binding Height, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Радиус" Binding="{Binding Radius, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Сезон" Binding="{Binding Season, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Шипы" Binding="{Binding Spikes, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="RFT" Binding="{Binding RFT, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="ИС" Binding="{Binding IsCol, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="ИН" Binding="{Binding InCol, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Груз" Binding="{Binding Gruz, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Цена" Binding="{Binding Price, Mode=OneWay}"/>-->
+                                    <DataGridTextColumn Header="Оптовая цена" Binding="{Binding ProdName, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Склад" Binding="{Binding StorehouseName, Mode=OneWay}"/>
+                                    <DataGridTextColumn Header="Количество" Binding="{Binding TotalQuantity, Mode=OneWay}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            <GroupBox Header="Перемещение:">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <Label Content="Категория" Margin="5,0,5,0"/>
+                        <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="CategoriesMove" Margin="5,0,5,0" Width="150" SelectionChanged="CategoriesMove_SelectionChanged"/>
+                        <Label Content="Производитель" Margin="5,0,5,0"/>
+                        <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="ManufacturersMove" Margin="5,0,5,0" Width="150" IsEnabled="False" SelectionChanged="ManufacturersMove_SelectionChanged_1"/>
+                        <Label Content="Модель" Margin="5,0,5,0"/>
+                        <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="ModelsMove" Margin="5,0,5,0" Width="150" IsEnabled="False" SelectionChanged="ModelsMove_SelectionChanged"/>
+                        <Label Content="Ширина" Margin="5,0,5,0"/>
+                        <ComboBox Name="WidthMove" Margin="5,0,5,0" Width="75" SelectionChanged="WidthMove_SelectionChanged"/>
+                        <Label Content="Высота" Margin="5,0,5,0"/>
+                        <ComboBox Name="HeightMove" Margin="5,0,5,0" Width="75" SelectionChanged="HeightMove_SelectionChanged"/>
+                    </StackPanel>
+                    <StackPanel  Orientation="Horizontal" Margin="0,5,0,5">
+                            <Label Content="Радиус" Margin="5,0,5,0"/>
+                            <ComboBox Name="RadiusMove" Margin="5,0,5,0" Width="75" SelectionChanged="RadiusMove_SelectionChanged"/>
+                            <Label Content="Откуда:" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="StorehouseFrom" Margin="5,0,5,0" Width="150" IsEnabled="False" SelectionChanged="StorehouseFrom_SelectionChanged"/>
+                            <Label Name="QuantAtStore" Margin="5,0,5,0"/>
+                            <Label Content="Куда:" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="StorehouseTo" Margin="5,0,5,0" Width="150" IsEnabled="False" />
+                            <Label Content="Количество:" Margin="5,0,5,0"/>
+                            <TextBox Name="ProductMoveQuantity" Margin="5,0,5,0" Width="150"/>
+                            <Button Name="MoveBtn" Content="Переместить" Width="150" Click="MoveBtn_Click" Margin="5,0,5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Списание:">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Категория" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="CategoriesOff" Margin="5,0,5,0" Width="150" SelectionChanged="CategoriesOff_SelectionChanged"/>
+                            <Label Content="Производитель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="ManufacturersOff" Margin="5,0,5,0" Width="150" IsEnabled="False" SelectionChanged="ManufacturersOff_SelectionChanged"/>
+                            <Label Content="Модель" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="ModelsOff" Margin="5,0,5,0" Width="150" IsEnabled="False" SelectionChanged="ModelsOff_SelectionChanged"/>
+                            <Label Content="Откуда:" Margin="5,0,5,0"/>
+                            <ComboBox IsTextSearchEnabled="True" IsReadOnly="False" IsEditable="True" Name="StorehouseOffFrom" Margin="5,0,5,0" Width="150" IsEnabled="False" />
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal" Margin="0,5,0,5">
+                            <Label Content="Количество:" Margin="5,0,5,0"/>
+                            <TextBox Name="ProductOffQuantity" Margin="5,0,5,0" Width="150" />
+                            <Label Content="Стоимость:" Margin="5,0,5,0"/>
+                            <TextBox Name="ProductOffPrice" Margin="5,0,5,0" Width="150" />
+                            <Label Content="Комментарий:" Margin="5,0,5,0"/>
+                            <TextBox Name="OffComment" Margin="5,0,5,0" Width="150"/>
+                            <Button Name="OffBtn" Content="Списать" Width="150" Click="OffBtn_Click" Margin="5,0,5,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

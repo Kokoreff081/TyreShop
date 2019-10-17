@@ -1,0 +1,31 @@
+﻿<Page x:Class="Tyreshop.login"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tyreshop"
+      mc:Ignorable="d" 
+      Background="Transparent"
+      d:DesignHeight="535" d:DesignWidth="700"
+      Title="login">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height ="100"/>
+            <RowDefinition Height ="145"/>
+            <RowDefinition  Height ="145"/>
+            <RowDefinition  Height ="145"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="500"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.ColumnSpan="2" Source="{StaticResource Logo}"/>
+        <Label Content="Логин" Grid.Row="1" Grid.Column="0" Margin="30" FontSize="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox Name="Login" Grid.Row="1" Grid.Column="1" Margin="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label Content="Пароль" Grid.Row="2" Grid.Column="0" Margin="30" FontSize="35" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <PasswordBox Name="Password" Grid.Row="2" Grid.Column="1" Margin="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Name="LoginBtn" Content="Войти" Grid.Row="3" Grid.ColumnSpan="2" Margin="30" FontSize="35" Click="LoginBtn_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <!--<Button Name="RegisterBtn" Content="Регистрация" Grid.Row="3" Grid.Column="1" Margin="30" FontSize="35" Click="RegisterBtn_Click"/>-->
+    </Grid>
+</Page>

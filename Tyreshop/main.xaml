@@ -1,0 +1,162 @@
+﻿<Page x:Class="Tyreshop.main"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:utils="clr-namespace:Tyreshop.Utils"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tyreshop"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="main">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Name="adminPanel" MaxHeight="150"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <GroupBox Grid.Row="0" Visibility="Visible" Header="Админпанель">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <DockPanel VerticalAlignment="Top" Name="Dashboard" Visibility="Collapsed">
+                <StackPanel Orientation="Vertical" Background="Transparent">
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                            <Button Name="AddProduct" Content="Добавить товар" Click="AddProduct_Click" Margin="5,0,5,0" Width="170"/>
+                            <Button Name="CapitalizeProduct" Content="Движение товара" Click="CapitalizeProduct_Click" Margin="5,0,5,0" Width="170"/>
+                            <Button Name="AddStorehouse" Content="Управление складами" Click="AddStorehouse_Click" Margin="5,0,5,0" Width="170"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                            <Button Name="AddUser" Content="Управление пользователями" Click="AddUser_Click" Margin="5,0,5,0" Width="170" />
+                            <Button Name="AddService" Content="Добавить услугу" Click="AddService_Click" Margin="5,0,5,0" Width="170"/>
+                            <Button Name="AddCategory" Content="Добавить категорию товаров" Click="AddCategory_Click" Visibility="Collapsed" Margin="5,0,5,0"/>
+                            <Button Name="ProductsExpostXlsx" Content="Экспорт товаров в Excel" Click="ProductsExpostXlsx_Click" Margin="5,0,5,0" Width="170"/>
+                        </StackPanel>
+                    </StackPanel>
+            </DockPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                    <Button Name="SaleReceipt" Content="Оформить продажу" Click="SaleReceipt_Click" Margin="5,0,5,0" Width="170" Visibility="Collapsed"/>
+                    <Button Name="DailyReport" Content="Дневной отчет" Click="DailyReport_Click" Margin="5,0,5,0" Width="170" Visibility="Collapsed"/>
+                    <Button Name="Orders" Content="Бронирование" Click="Orders_Click" Margin="5,0,5,0" Width="170"/>
+                    <Button Name="Refresh" Content="Обновить базу" Click="Refresh_Click" Margin="5,0,5,0" Width="170"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Name="Mainboard" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="9*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TreeView  Name="ProductTV" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="800" BorderThickness="0"
+                               MouseDoubleClick="ProductTV_MouseDoubleClick">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type utils:TreeViewContent}" ItemsSource="{Binding Products}">
+                                <HierarchicalDataTemplate.ItemContainerStyle>
+                                    <Style TargetType="{x:Type TreeViewItem}">
+                                        <Setter Property="Uid" Value="Radius"/>
+                                        <Setter Property="Tag" Value="{Binding Radius}"/>
+                                    </Style>
+                                </HierarchicalDataTemplate.ItemContainerStyle>
+                                <TextBlock Text="{Binding CategoryName}"/>
+                                <HierarchicalDataTemplate.ItemTemplate>
+                                    <HierarchicalDataTemplate DataType="{x:Type utils:GroupOfProducts}">
+                                        
+                                        <TextBlock Text="{Binding Radius}"/>
+                                    </HierarchicalDataTemplate>
+                                </HierarchicalDataTemplate.ItemTemplate>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                        <TreeView.ItemContainerStyle>
+                            <!--Using style setter to set the TreeViewItem.IsExpanded property to true, this will be applied
+      to all TreeViweItems when they are generated-->
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsExpanded" Value="True"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                    
+                              
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                        <GroupBox Header="Фильтры">
+                            <StackPanel Orientation="Horizontal" Name="Filters">
+                                <Label Content="Ширина" Margin="5,0,5,0"/>
+                                <ComboBox Name="Width" Margin="5,0,5,0" Width="75" SelectionChanged="Width_SelectionChanged"/>
+                                <Label Content="Высота" Margin="5,0,5,0"/>
+                                <ComboBox Name="Height" Margin="5,0,5,0" Width="75" SelectionChanged="Height_SelectionChanged"/>
+                                <Label Content="Радиус" Margin="5,0,5,0" Name="RadiusLbl" Visibility="Collapsed"/>
+                                <ComboBox Name="Radius" Margin="5,0,5,0" Width="75" Visibility="Collapsed" SelectionChanged="Radius_SelectionChanged"/>
+                                <Label Content="Сезон" Margin="5,0,5,0"/>
+                                <ComboBox Name="Season" Margin="5,0,5,0" Width="75" SelectionChanged="Season_SelectionChanged"/>
+                                <Label Content="Производитель" Margin="5,0,5,0"/>
+                                <ComboBox Name="Manufacturer" Margin="5,0,5,0" Width="100" SelectionChanged="Manufacturer_SelectionChanged"/>
+                                <Label Content="Модель" Margin="5,0,5,0"/>
+                                <ComboBox Name="Model" Margin="5,0,5,0" SelectionChanged="Model_SelectionChanged" Width="75"/>
+                                <Label Content="RFT" Margin="5,0,5,0"/>
+                                <ComboBox Name="RFT" Margin="5,0,5,0" SelectionChanged="RFT_SelectionChanged" Width="75"/>
+                                <Label Content="ИС" Margin="5,0,5,0"/>
+                                <ComboBox Name="IsCol" Margin="5,0,5,0" SelectionChanged="IsCol_SelectionChanged" Width="75"/>
+                                <Label Content="ИН" Margin="5,0,5,0"/>
+                                <ComboBox Name="InCol" Margin="5,0,5,0" SelectionChanged="InCol_SelectionChanged" Width="75"/>
+                                <Label Content="Груз" Margin="5,0,5,0"/>
+                                <ComboBox Name="Gruz" Margin="5,0,5,0" SelectionChanged="Gruz_SelectionChanged" Width="75"/>
+                                <Label Content="Шипы" Margin="5,0,5,0"/>
+                                <ComboBox Name="Spikes" Margin="5,0,5,0" SelectionChanged="Spikes_SelectionChanged" Width="75"/>
+                                <Button Name="ResetFilters" Margin="5,0,5,0" Content="Сброс фильтров" Click="ResetFilters_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <DataGrid Grid.Column="1" Name="Details" AutoGenerateColumns="False" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="750" FontSize="15"
+                              AlternatingRowBackground="LightGray">
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Производитель" Binding="{Binding Manufacturer, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Модель" Binding="{Binding Model, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Страна" Binding="{Binding Country, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Ширина" Binding="{Binding Width, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Высота" Binding="{Binding Height, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Радиус" Binding="{Binding Radius, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Сезон" Binding="{Binding Season, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Шипы" Binding="{Binding Spikes, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="RFT" Binding="{Binding RFT, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="ИС" Binding="{Binding IsCol, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="ИН" Binding="{Binding InCol, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Груз" Binding="{Binding Gruz, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Оптовая цена" Binding="{Binding OptPrice, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Закупочная цена" Binding="{Binding PurPrice, Mode=OneWay}">
+                                
+                            </DataGridTextColumn>
+                            <!--<DataGridTextColumn Header="Склад" Binding="{Binding StorehouseName, Mode=OneWay}"/>-->
+                            <DataGridTextColumn Header="Общее Количество" Binding="{Binding TotalQuantity, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Забронировано" Binding="{Binding InOrder, Mode=OneWay}"/>
+                        </DataGrid.Columns>
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate DataType="{x:Type utils:BdProducts}">
+                                <Grid Height="180">
+                                    <DataGrid x:Name="second" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" RowHeight="20" Height="180" ItemsSource="{Binding Storehouse}">
+                                        <DataGrid.Resources>
+                                            <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="{x:Type DataGridRow}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGrid.Resources>
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Склад" Binding ="{Binding StorehouseName}" />
+                                            <DataGridTextColumn Header="Адрес склада"  Binding="{Binding Address}"/>
+                                            <DataGridTextColumn Header="Количество на складе"  Binding="{Binding Quantity}"/>
+                                            <DataGridTextColumn Header="Забронировано" Binding="{Binding InOrder, Mode=OneWay}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
