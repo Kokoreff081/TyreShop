@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tyreshop"
         mc:Ignorable="d"
-        Title="TyreShop: Склад" HorizontalContentAlignment="Center" WindowStartupLocation="CenterScreen">
+        Title="TyreShop: Склад" HorizontalContentAlignment="Center" WindowStartupLocation="CenterScreen" Name="MainWnd">
     <Grid>
         <Frame Name="mainFrame" NavigationUIVisibility="Hidden"/>
 

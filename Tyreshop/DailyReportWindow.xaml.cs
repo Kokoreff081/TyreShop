@@ -229,7 +229,7 @@ namespace Tyreshop
                     var res = MessageBox.Show("Вы действительно хотите полностью удалить данную операцию? Действие необратимо.", "Информация", MessageBoxButton.OKCancel);
                     if (res == MessageBoxResult.OK)
                     {
-                        if (oper.ProductId != 0)
+                        if (oper.ProductId != null && oper.ProductId!=0)
                         {
                             int store = db.storehouses.Single(s => s.StorehouseName == oper.Storehouse).StorehouseId;
                             int quant = oper.Count;

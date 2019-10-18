@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using Tyreshop.DbAccess;
 using MySql.Data.MySqlClient;
 using System.Security.Cryptography;
+using System.Reflection;
+using System.Deployment.Application;
 
 namespace Tyreshop
 {
@@ -28,10 +30,27 @@ namespace Tyreshop
         public MainWindow()
         {
             InitializeComponent();
+            Assembly assem = Assembly.GetEntryAssembly();
+            AssemblyName assemName = assem.GetName();
+            Version ver = assemName.Version;
+            string version = "Система склад ( V. " + getRunningVersion() + " )";
+            MainWnd.Title = version;
             this.Height = (System.Windows.SystemParameters.PrimaryScreenHeight-50);
             this.Width = (System.Windows.SystemParameters.PrimaryScreenWidth);
             OpenPages(pages.login);
 
+        }
+
+        private Version getRunningVersion()
+        {
+            try
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version;
+            }
+            catch (Exception)
+            {
+                return ApplicationDeployment.CurrentDeployment.CurrentVersion;
+            }
         }
         public enum pages {
             login,
