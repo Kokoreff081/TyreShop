@@ -29,6 +29,10 @@ namespace Tyreshop.Utils
     {
         private string _radius;
         public string Radius { get { return _radius; } set { _radius = value; OnPropertyChanged("Radius"); } }
+        private int storeId;
+        public int StoreId { get { return storeId; } set { storeId = value; OnPropertyChanged("StoreId"); } }
+        private string storeName;
+        public string StoreName { get { return storeName; } set { storeName = value; OnPropertyChanged("StoreName"); } }
         public List<BdProducts> BdProducts { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -65,7 +69,9 @@ namespace Tyreshop.Utils
         public int StorehouseId { get; set; }
         public int? InOrder { get; set; }
         public string Country { get; set; }
-        
+        public decimal? ComplektPrice { get; set; }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string prop)
         {

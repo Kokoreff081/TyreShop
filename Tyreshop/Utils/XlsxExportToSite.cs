@@ -78,7 +78,12 @@ namespace Tyreshop.Utils
                 columns1.Append(new Column() { Min = (UInt32Value)16U, Max = (UInt32Value)16U, Width = 13.5703125D, BestFit = true, CustomWidth = true });
 
                 SheetData sheetData = new SheetData();
-                string[] headerRow = new string[] {"Сезон", "Артикул", "Размеры", "Производитель", "Модель", "Шир", "Выс", "Рад", "ИН", "ИС", "RFT", "ШИП", "Груз", "Кол", "Цена", "Оптовая цена" };
+                List<string> headerRow = new List<string>() {"Сезон", "Артикул", "Размеры", "Производитель", "Модель", "Шир", "Выс", "Рад", "ИН", "ИС", "RFT", "ШИП", "Груз", "Кол", "Цена", "Оптовая цена" };
+                using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
+                {
+                    var stores = db.storehouses.OrderBy(o => o.StorehouseId).Select(s => s.StorehouseName).Distinct().ToList();
+                    headerRow.AddRange(stores);
+                }
                 uint rowInd = 1U;
                 int cellNum = 1;
                 Row rowHead = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D };
@@ -104,9 +109,13 @@ namespace Tyreshop.Utils
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.RFT, shareStringPart);
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Spikes, shareStringPart);
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Gruz, shareStringPart);
-                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.TotalQuantity.ToString(), shareStringPart);
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.TotalQuantity.ToString(), shareStringPart);
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Price.ToString(), shareStringPart);
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.OptPrice.ToString(), shareStringPart);
+                    foreach (var item in prod.Storehouse.Where(w => w.ProductId == prod.ProductId).OrderBy(o=>o.StorehouseId))
+                    {
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, item.Quantity.ToString(), shareStringPart);
+                    }
                     sheetData.AppendChild(prodRow);
                     rowInd++;
                     cellNum = 1;

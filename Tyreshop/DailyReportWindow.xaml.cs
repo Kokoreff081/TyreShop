@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
+using Spire.Xls;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Drawing.Printing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -265,6 +267,161 @@ namespace Tyreshop
                 }
             }
             catch (Exception ex) {
+                int point = 0;
+            }
+        }
+
+        private void PrintSale_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            DelSaleButtonTag dt = btn.Tag as DelSaleButtonTag;
+            try {
+
+                string saleNumber = "";
+                string saleDate = "";
+                string productPrice = "";
+                List<operation> saleNumbers = new List<operation>();
+                List<DGSaleItems> sales = lst.Where(w=>w.SaleNumber==dt.SaleNumber).ToList();
+                using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
+                {
+                    saleNumbers = db.operations.Where(w=>w.SaleNumber==dt.SaleNumber).ToList();
+                    saleNumber = dt.SaleNumber.ToString();
+                    saleDate = saleNumbers[0].OperationDate.ToString("m", CultureInfo.CurrentUICulture) + " " + saleNumbers[0].OperationDate.ToString("yyyy");
+                    productPrice = db.products.Where(w => w.ProductId == saleNumbers[0].ProductId).Select(s => s.Price).FirstOrDefault().ToString();
+                }
+                string header = @"Продавец: ИП Разуменко Анна Игоревна
+ИНН: 390103431861
+Расч.счет: 40802810500000463519
+Банк: АО «Тинькофф Банк» Москва, 123060, 1-й Волоколамский проезд, д. 10, стр. 1
+БИК:    044525974     Корр.счет:  30101810145250000974 
+Адрес продавца: Санкт - Петербург ул.Калинина 5 " + "\"TireShop - новые шины по самым низким ценам\"" +
+"\n Тел.8 - 965 - 818 - 84 - 46 сайт: EUROKOLESO.RU";
+                Workbook wb = new Workbook();
+                Worksheet sheet = wb.Worksheets[0];
+                sheet.SetColumnWidth(1, 2);//a
+                sheet.SetColumnWidth(2, 0.5);//b
+                sheet.SetColumnWidth(3, 7.5);//c
+                sheet.SetColumnWidth(4, 21.3);//d
+                sheet.SetColumnWidth(5, 8.1);//e
+                sheet.SetColumnWidth(6, 7.3);//f
+                sheet.SetColumnWidth(7, 1.6);//g
+                sheet.SetColumnWidth(8, 2.8);//h
+                sheet.SetColumnWidth(9, 5.3);//i
+                sheet.SetColumnWidth(10, 5.6);//j
+                sheet.SetColumnWidth(11, 2);//k
+                sheet.SetColumnWidth(12, 1.3);//l
+                sheet.SetColumnWidth(13, 5.6);//m
+                sheet.SetColumnWidth(14, 2.9);//n
+                sheet.SetColumnWidth(15, 2.6);//o
+                sheet.SetColumnWidth(16, 0.7);//p
+                sheet.SetColumnWidth(17, 1);//r
+                sheet.Range["A1:R8"].Merge();
+                sheet.Range["A1"].Text = header;
+                sheet.Range["C9:G9"].Merge();
+                sheet.Range["C9"].Text = "Товарный чек № " + saleNumber + " от ";
+                sheet.Range["H9:M9"].Merge();
+                sheet.Range["H9"].Text = saleDate;
+                sheet.Range["A11:B11"].Merge();
+                sheet.Range["A11"].Text = "№";
+                sheet.Range["A11:M11"].BorderInside();
+                sheet.Range["A11:M11"].BorderAround();
+                sheet.Range["A11"].Style.Color = System.Drawing.Color.LightGray;
+                sheet.Range["C11:F11"].Merge();
+                sheet.Range["C11"].Text = "Наименование товара";
+                //sheet.Range["C11"].BorderInside();
+                sheet.Range["C11"].Style.Color = System.Drawing.Color.LightGray;
+                sheet.Range["G11:I11"].Merge();
+                sheet.Range["G11:I11"].Style.Color = System.Drawing.Color.LightGray;
+                sheet.Range["G11"].Text = "Кол-во";
+                //sheet.Range["I11"].BorderInside();
+                sheet.Range["I11"].Style.Color = System.Drawing.Color.LightGray;
+                sheet.Range["J11:L11"].Merge();
+                sheet.Range["J11"].Text = "Цена";
+                //sheet.Range["J11"].BorderInside();
+                sheet.Range["J11"].Style.Color = System.Drawing.Color.LightGray;
+                sheet.Range["M11:R11"].Merge();
+                sheet.Range["M11"].Text = "Сумма";
+                sheet.Range["M11:R11"].BorderAround();
+                sheet.Range["M11"].Style.Color = System.Drawing.Color.LightGray;
+
+                int counter = 12;
+                decimal totalSum = 0;
+                for (int i = 0; i < sales.Count; i++)
+                {
+                    var item = sales[i];
+                    sheet.Range["A" + counter + ":B" + counter].Merge();
+                    sheet.Range["A" + counter].Text = item.SaleNumber.ToString();
+                    sheet.Range["C" + counter + ":F" + counter].Merge();
+                    sheet.Range["C" + counter].Text = item.ProdName;
+                    sheet.Range["G" + counter + ":I" + counter].Merge();
+                    sheet.Range["G" + counter].Text = item.Quantity.ToString();
+                    sheet.Range["J" + counter + ":L" + counter].Merge();
+                    if (item.ServiceId == 0)
+                        wb.Worksheets[0].Range["J" + counter].Text = productPrice;
+                    else
+                    {
+                        //var totalPrice = item.Price * item.Quantity;
+                        sheet.Range["J" + counter].Text = ((decimal)(item.Price / item.Quantity)).ToString();
+                    }
+                    sheet.Range["M" + counter + ":R" + counter].Merge();
+                    sheet.Range["M" + counter].Text = item.Price.ToString() + " руб.";
+                    sheet.Range["A" + counter + ":R" + counter].BorderInside();
+                    sheet.Range["A" + counter + ":R" + counter].BorderAround();
+                    counter++;
+                    totalSum += item.Price;
+                }
+                sheet.Range["A" + counter + ":H" + counter].Merge();
+                sheet.Range["I" + counter + ":L" + counter].Merge();
+                sheet.Range["I" + counter].Text = "сумма чека: ";
+                sheet.Range["M" + counter + ":R" + counter].Merge();
+                sheet.Range["M" + counter].Text = totalSum.ToString() + " руб.";
+                sheet.Range["M" + counter + ":R" + counter].BorderAround();
+                counter++;
+                sheet.Range["B" + counter + ":P" + counter].Merge();
+                sheet.Range["B" + counter].Text = "Всего наименований " + sales.Count;
+                counter += 3;
+                sheet.Range["C" + counter + ":K" + (counter + 4)].Merge();
+                sheet.Range["C" + counter].Text = "Отпустил продавец:__________________________________";
+                counter += 4;
+                sheet.Range["D" + counter].Text = "Товар получен, осмотрен, претензий по внешнему виду не имею. О условиях гарантии предупрежден.";
+                counter++;
+                sheet.Range["F" + counter].Text = "М.П.";
+
+                //bool? result = saveFile.ShowDialog();
+                //if (result.HasValue && result.Value)
+                //{
+                //    using (Stream stream = saveFile.OpenFile())
+                //    {
+                //        wb.SaveToStream(stream);
+                //    }
+
+                //}
+                //int counter2 = 0;
+                //do
+                //{
+                //    System.Threading.Thread.Sleep(500);
+                //    counter2++;
+                //} while (!File.Exists(saveFile.FileName) && counter2 < 10);
+                //if (counter2 < 10)
+                //    System.Diagnostics.Process.Start(saveFile.FileName);
+                PrintDialog dialog = new PrintDialog();
+                dialog.UserPageRangeEnabled = true;
+                PageRange rang = new PageRange(1, 1);
+                dialog.PageRange = rang;
+                PageRangeSelection seletion = PageRangeSelection.UserPages;
+                dialog.PageRangeSelection = seletion;
+                //dialog.PrintQueue = new PrintQueue(new PrintServer(), "Brother DCP-9020CDW Printer (копия 1)");
+                PrintDocument pd = wb.PrintDocument;
+                if (dialog.ShowDialog() == true)
+                {
+                    pd.Print();
+                    //Thread.Sleep(10000);
+                    //int point = 0;
+                }
+                //this.Close();
+            }
+            catch (Exception ex)
+            {
                 int point = 0;
             }
         }

@@ -52,15 +52,15 @@
                             <HierarchicalDataTemplate DataType="{x:Type utils:TreeViewContent}" ItemsSource="{Binding Products}">
                                 <HierarchicalDataTemplate.ItemContainerStyle>
                                     <Style TargetType="{x:Type TreeViewItem}">
-                                        <Setter Property="Uid" Value="Radius"/>
-                                        <Setter Property="Tag" Value="{Binding Radius}"/>
+                                        <Setter Property="Uid" Value="Store"/>
+                                        <Setter Property="Tag" Value="{Binding StoreId}"/>
                                     </Style>
                                 </HierarchicalDataTemplate.ItemContainerStyle>
                                 <TextBlock Text="{Binding CategoryName}"/>
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <HierarchicalDataTemplate DataType="{x:Type utils:GroupOfProducts}">
                                         
-                                        <TextBlock Text="{Binding Radius}"/>
+                                        <TextBlock Text="{Binding StoreName}"/>
                                     </HierarchicalDataTemplate>
                                 </HierarchicalDataTemplate.ItemTemplate>
                             </HierarchicalDataTemplate>
@@ -79,34 +79,38 @@
                 <StackPanel Grid.Column="1">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                         <GroupBox Header="Фильтры">
-                            <StackPanel Orientation="Horizontal" Name="Filters">
-                                <Label Content="Ширина" Margin="5,0,5,0"/>
-                                <ComboBox Name="Width" Margin="5,0,5,0" Width="75" SelectionChanged="Width_SelectionChanged"/>
-                                <Label Content="Высота" Margin="5,0,5,0"/>
-                                <ComboBox Name="Height" Margin="5,0,5,0" Width="75" SelectionChanged="Height_SelectionChanged"/>
-                                <Label Content="Радиус" Margin="5,0,5,0" Name="RadiusLbl" Visibility="Collapsed"/>
-                                <ComboBox Name="Radius" Margin="5,0,5,0" Width="75" Visibility="Collapsed" SelectionChanged="Radius_SelectionChanged"/>
-                                <Label Content="Сезон" Margin="5,0,5,0"/>
-                                <ComboBox Name="Season" Margin="5,0,5,0" Width="75" SelectionChanged="Season_SelectionChanged"/>
-                                <Label Content="Производитель" Margin="5,0,5,0"/>
-                                <ComboBox Name="Manufacturer" Margin="5,0,5,0" Width="100" SelectionChanged="Manufacturer_SelectionChanged"/>
-                                <Label Content="Модель" Margin="5,0,5,0"/>
-                                <ComboBox Name="Model" Margin="5,0,5,0" SelectionChanged="Model_SelectionChanged" Width="75"/>
-                                <Label Content="RFT" Margin="5,0,5,0"/>
-                                <ComboBox Name="RFT" Margin="5,0,5,0" SelectionChanged="RFT_SelectionChanged" Width="75"/>
-                                <Label Content="ИС" Margin="5,0,5,0"/>
-                                <ComboBox Name="IsCol" Margin="5,0,5,0" SelectionChanged="IsCol_SelectionChanged" Width="75"/>
-                                <Label Content="ИН" Margin="5,0,5,0"/>
-                                <ComboBox Name="InCol" Margin="5,0,5,0" SelectionChanged="InCol_SelectionChanged" Width="75"/>
-                                <Label Content="Груз" Margin="5,0,5,0"/>
-                                <ComboBox Name="Gruz" Margin="5,0,5,0" SelectionChanged="Gruz_SelectionChanged" Width="75"/>
-                                <Label Content="Шипы" Margin="5,0,5,0"/>
-                                <ComboBox Name="Spikes" Margin="5,0,5,0" SelectionChanged="Spikes_SelectionChanged" Width="75"/>
-                                <Button Name="ResetFilters" Margin="5,0,5,0" Content="Сброс фильтров" Click="ResetFilters_Click"/>
+                            <StackPanel Orientation="Vertical" Name="Filters">
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                    <Label Content="Ширина" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Width" Margin="5,0,5,0" Width="75" SelectionChanged="Width_SelectionChanged"/>
+                                    <Label Content="Высота" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Height" Margin="5,0,5,0" Width="75" SelectionChanged="Height_SelectionChanged"/>
+                                    <Label Content="Радиус" Margin="5,0,5,0" Name="RadiusLbl" />
+                                    <ComboBox Name="Radius" Margin="5,0,5,0" Width="75" SelectionChanged="Radius_SelectionChanged"/>
+                                    <Label Content="Сезон" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Season" Margin="5,0,5,0" Width="75" SelectionChanged="Season_SelectionChanged"/>
+                                    <Label Content="Производитель" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Manufacturer" Margin="5,0,5,0" Width="100" SelectionChanged="Manufacturer_SelectionChanged"/>
+                                    <Label Content="Модель" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Model" Margin="5,0,5,0" SelectionChanged="Model_SelectionChanged" Width="75"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                                    <Label Content="RFT" Margin="5,0,5,0"/>
+                                    <ComboBox Name="RFT" Margin="5,0,5,0" SelectionChanged="RFT_SelectionChanged" Width="75"/>
+                                    <Label Content="ИС" Margin="5,0,5,0"/>
+                                    <ComboBox Name="IsCol" Margin="5,0,5,0" SelectionChanged="IsCol_SelectionChanged" Width="75"/>
+                                    <Label Content="ИН" Margin="5,0,5,0"/>
+                                    <ComboBox Name="InCol" Margin="5,0,5,0" SelectionChanged="InCol_SelectionChanged" Width="75"/>
+                                    <Label Content="Груз" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Gruz" Margin="5,0,5,0" SelectionChanged="Gruz_SelectionChanged" Width="75"/>
+                                    <Label Content="Шипы" Margin="5,0,5,0"/>
+                                    <ComboBox Name="Spikes" Margin="5,0,5,0" SelectionChanged="Spikes_SelectionChanged" Width="75"/>
+                                    <Button Name="ResetFilters" Margin="5,0,5,0" Content="Сброс фильтров" Click="ResetFilters_Click"/>
+                                </StackPanel>
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
-                    <DataGrid Grid.Column="1" Name="Details" AutoGenerateColumns="False" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="750" FontSize="15"
+                    <DataGrid Grid.Column="1" Name="Details" AutoGenerateColumns="False" CanUserAddRows="False" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="700" FontSize="15"
                               AlternatingRowBackground="LightGray">
                         
                         <DataGrid.Columns>
@@ -124,10 +128,8 @@
                             <DataGridTextColumn Header="Груз" Binding="{Binding Gruz, Mode=OneWay}"/>
                             <DataGridTextColumn Header="Цена" Binding="{Binding Price, Mode=OneWay}"/>
                             <DataGridTextColumn Header="Оптовая цена" Binding="{Binding OptPrice, Mode=OneWay}"/>
-                            <DataGridTextColumn Header="Закупочная цена" Binding="{Binding PurPrice, Mode=OneWay}">
-                                
-                            </DataGridTextColumn>
-                            <!--<DataGridTextColumn Header="Склад" Binding="{Binding StorehouseName, Mode=OneWay}"/>-->
+                            <DataGridTextColumn Header="Закупочная цена" Binding="{Binding PurPrice, Mode=OneWay}"/>
+                            <DataGridTextColumn Header="Цена за 4 колеса" Binding="{Binding ComplektPrice, Mode=OneWay}"/>
                             <DataGridTextColumn Header="Общее Количество" Binding="{Binding TotalQuantity, Mode=OneWay}"/>
                             <DataGridTextColumn Header="Забронировано" Binding="{Binding InOrder, Mode=OneWay}"/>
                         </DataGrid.Columns>

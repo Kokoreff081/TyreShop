@@ -96,34 +96,47 @@ namespace Tyreshop
                 using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
                 {
                     widths = db.products.Select(s => s.Width.ToString()).Distinct().ToList();
+                    widths.Insert(0, "Все варианты");
                     Width.ItemsSource = widths;
                     heights = db.products.Select(s => s.Height.ToString()).Distinct().ToList();
+                    heights.Insert(0, "Все варианты");
                     Height.ItemsSource = heights;
                     radiuses = db.products.Select(s => s.Radius).Distinct().ToList();
+                    radiuses.Insert(0, "Все варианты");
                     Radius.ItemsSource = radiuses;
                     var manufs = db.products.Join(db.manufacturers, p => p.ManufacturerId, m => m.ManufacturerId, (p, m) => new { Name = m.ManufacturerName.Trim() }).Select(s => s.Name).Distinct().OrderBy(o => o).ToList();
+                    manufs.Insert(0, "Все варианты");
                     Manufacturer.ItemsSource = manufs;
                     var models = db.products.Join(db.models, p => p.ModelId, m => m.ModelId, (p, m) => new { Name = m.ModelName }).Select(s => s.Name).Distinct().OrderBy(o => o).ToList();
+                    models.Insert(0, "Все варианты");
                     Model.ItemsSource = models;
                     var isCols = db.products.Select(s => s.IsCol).Distinct().ToList();
+                    isCols.Insert(0, "Все варианты");
                     IsCol.ItemsSource = isCols;
                     var inCols = db.products.Select(s => s.InCol).Distinct().ToList();
+                    inCols.Insert(0, "Все варианты");
                     InCol.ItemsSource = inCols;
                     var rfts = db.products.Select(s => s.RFT).Distinct().ToList();
+                    rfts.Insert(0, "Все варианты");
                     RFT.ItemsSource = rfts;
                     var gruzes = db.products.Select(s => s.Gruz).Distinct().ToList();
+                    gruzes.Insert(0, "Все варианты");
                     Gruz.ItemsSource = gruzes;
                     var seasons = db.products.Select(s => s.Season).Distinct().ToList();
+                    seasons.Insert(0, "Все варианты");
                     Season.ItemsSource = seasons;
                     var spikes = db.products.Select(s => s.Spikes).Distinct().ToList();
+                    spikes.Insert(0, "Все варианты");
                     Spikes.ItemsSource = spikes;
-                    var groups = db.products.Select(s => s.Radius).Distinct().ToList();
+                    var groups = db.productquantities.Select(s => s.StorehouseId).Distinct().ToList();
                     foreach (var g in groups)
                     {
+                        var tmp = MainList.Where(w => w.Storehouse.Any(a => a.StorehouseId == g)).ToList();
                         GroupOfProducts gop = new GroupOfProducts()
                         {
-                            Radius = g,
-                            BdProducts = MainList.Where(w => w.Radius == g).ToList()
+                            StoreId = g,
+                            StoreName = db.storehouses.Single(s=>s.StorehouseId==g).StorehouseName,
+                            BdProducts = tmp//MainList.Where(w => w.Storehouse.Any(a=>a.StorehouseId == g)).ToList()
                         };
                         radiusList.Add(gop);
                     }
@@ -212,10 +225,11 @@ namespace Tyreshop
             TreeView item = sender as TreeView;
             TreeViewItem selectedItem = ContainerFromItem(ProductTV.ItemContainerGenerator, item.SelectedItem);
             string type = selectedItem.Uid;
-            if (type == "Radius")
+            if (type == "Store")
             {
                 string rad = selectedItem.Tag.ToString();
-                tmpList = MainList.Where(w=>w.Radius==rad).ToList();
+                int store = int.Parse(rad);
+                tmpList = MainList.Where(w=>w.Storehouse.Any(a=>a.StorehouseId==store)).ToList();
                 Details.ItemsSource = tmpList;
                 if (_user.Role != "admin")
                     Details.Columns[14].Visibility = Visibility.Collapsed;
@@ -257,6 +271,7 @@ namespace Tyreshop
                         Price = (decimal)p.Price,
                         OptPrice = p.OptPrice,
                         PurPrice = p.PurchasePrice,
+                        ComplektPrice = p.Price * 4,
                         CategoryId = p.CategoryId,
                         Country = p.Country,
                         TotalQuantity = pq.Sum(x => x.Quantity),
@@ -268,7 +283,8 @@ namespace Tyreshop
                             Quantity = (int)pq1.Quantity,
                             InOrder = pq1.InOrder,
                             Address = s.Address,
-                            StorehouseName = s.StorehouseName
+                            StorehouseName = s.StorehouseName,
+                            StorehouseId = pq1.StorehouseId
                         }).ToList()//pq.StorehouseId
                     })
                         .OrderBy(o => o.Manufacturer.Trim())
@@ -286,27 +302,27 @@ namespace Tyreshop
 
         private List<BdProducts> FilterMainList(List<BdProducts> list, string rad = "", string width = "", string height = "", string manId = "", string modelId = "", string IsCol = "", string InCol = "", string Gruz = "", string RFT = "", string Spikes = "", string season = "") {
             var prods = list;
-            if (!string.IsNullOrEmpty(rad))
+            if (!string.IsNullOrEmpty(rad) && rad!="Все варианты")
                 prods = prods.Where(w => w.Radius == rad).ToList();
-            if (!string.IsNullOrEmpty(width))
+            if (!string.IsNullOrEmpty(width) && width != "Все варианты")
                 prods = prods.Where(w => w.Width.ToString() == width).ToList();
-            if (!string.IsNullOrEmpty(height))
+            if (!string.IsNullOrEmpty(height) && height != "Все варианты")
                 prods = prods.Where(w => w.Height.ToString() == height).ToList();
-            if (!string.IsNullOrEmpty(manId))
+            if (!string.IsNullOrEmpty(manId) && manId != "Все варианты")
                 prods = prods.Where(w => w.Manufacturer == manId).ToList();
-            if (!string.IsNullOrEmpty(modelId))
+            if (!string.IsNullOrEmpty(modelId) && modelId != "Все варианты")
                 prods = prods.Where(w => w.Model == modelId).ToList();
-            if (!string.IsNullOrEmpty(IsCol))
+            if (!string.IsNullOrEmpty(IsCol) && IsCol != "Все варианты")
                 prods = prods.Where(w => w.IsCol == IsCol).ToList();
-            if (!string.IsNullOrEmpty(InCol))
+            if (!string.IsNullOrEmpty(InCol) && InCol != "Все варианты")
                 prods = prods.Where(w => w.InCol == InCol).ToList();
-            if (!string.IsNullOrEmpty(Gruz))
+            if (!string.IsNullOrEmpty(Gruz) && Gruz != "Все варианты")
                 prods = prods.Where(w => w.Gruz == Gruz).ToList();
-            if (!string.IsNullOrEmpty(RFT))
+            if (!string.IsNullOrEmpty(RFT) && RFT != "Все варианты")
                 prods = prods.Where(w => w.RFT == RFT).ToList();
-            if (!string.IsNullOrEmpty(Spikes))
+            if (!string.IsNullOrEmpty(Spikes) && Spikes != "Все варианты")
                 prods = prods.Where(w => w.Spikes == Spikes).ToList();
-            if (!string.IsNullOrEmpty(season))
+            if (!string.IsNullOrEmpty(season) && season != "Все варианты")
                 prods = prods.Where(w => w.Season == season).ToList();
 
             return prods;
@@ -375,7 +391,12 @@ namespace Tyreshop
                         InCol.SelectedValue != null || Model.SelectedValue != null || Gruz.SelectedValue != null || Radius.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)tb.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, null, (string)tb.SelectedValue, null, null, null, null, null, null, null, null, null);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, null, (string)tb.SelectedValue, null, null, null, null, null, null, null, null, null);
+                        else
+                        { filtered = MainList; ResetFiltersMethod(); }
+                    }
                     Details.ItemsSource = filtered;
                 }
                 
@@ -409,7 +430,14 @@ namespace Tyreshop
                         InCol.SelectedValue != null || Model.SelectedValue != null || Gruz.SelectedValue != null || Radius.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)tb.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, null, null, (string)tb.SelectedValue, null, null, null, null, null, null, null, null);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, null, null, (string)tb.SelectedValue, null, null, null, null, null, null, null, null);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -442,7 +470,14 @@ namespace Tyreshop
                         InCol.SelectedValue != null || Model.SelectedValue != null || Gruz.SelectedValue != null || Height.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)tb.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)tb.SelectedValue, null, null, null, null, null, null, null, null, null, null);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)tb.SelectedValue, null, null, null, null, null, null, null, null, null, null);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -468,7 +503,14 @@ namespace Tyreshop
                        InCol.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)tb.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, null, null, null, null, null, null, null, null, null, null, (string)tb.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, null, null, null, null, null, null, null, null, null, null, (string)tb.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -494,8 +536,15 @@ namespace Tyreshop
                        InCol.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)tb.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)tb.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
-                    Details.ItemsSource = filtered;
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)tb.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
+                Details.ItemsSource = filtered;
                 }
             }
             else
@@ -520,7 +569,14 @@ namespace Tyreshop
                        InCol.SelectedValue != null || Gruz.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)tb.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)tb.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)tb.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -546,7 +602,14 @@ namespace Tyreshop
                         InCol.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)tb.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)tb.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)tb.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -572,7 +635,14 @@ namespace Tyreshop
                         InCol.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)tb.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)tb.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)tb.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -598,7 +668,14 @@ namespace Tyreshop
                         Gruz.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)tb.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)tb.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)tb.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -624,7 +701,14 @@ namespace Tyreshop
                        InCol.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Spikes.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)tb.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)tb.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)tb.SelectedValue, (string)RFT.SelectedValue, (string)Spikes.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
@@ -640,6 +724,10 @@ namespace Tyreshop
 
         private void ResetFilters_Click(object sender, RoutedEventArgs e)
         {
+                ResetFiltersMethod();
+        }
+
+        private void ResetFiltersMethod() {
             Details.ItemsSource = tmpList;
             using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
             {
@@ -650,7 +738,8 @@ namespace Tyreshop
                 var radiuses = db.products.Select(s => s.Radius).Distinct().ToList();
                 Radius.ItemsSource = radiuses;
             }
-            foreach (var tb in tbFilters) {
+            foreach (var tb in tbFilters)
+            {
                 switch (tb.Name)
                 {
                     case "Width":
@@ -724,7 +813,14 @@ namespace Tyreshop
                        InCol.SelectedValue != null || Model.SelectedValue != null || Radius.SelectedValue != null || Width.SelectedValue != null || Season.SelectedValue != null)
                         filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)tb.SelectedValue, (string)Season.SelectedValue);
                     else
-                        filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)tb.SelectedValue, (string)Season.SelectedValue);
+                    {
+                        if ((string)tb.SelectedValue != "Все варианты")
+                            filtered = FilterMainList(MainList, (string)Radius.SelectedValue, (string)Width.SelectedValue, (string)Height.SelectedValue, (string)Manufacturer.SelectedValue, (string)Model.SelectedValue, (string)IsCol.SelectedValue, (string)InCol.SelectedValue, (string)Gruz.SelectedValue, (string)RFT.SelectedValue, (string)tb.SelectedValue, (string)Season.SelectedValue);
+                        else
+                        {
+                            filtered = MainList; ResetFiltersMethod();
+                        }
+                    }
                     Details.ItemsSource = filtered;
                 }
             }
