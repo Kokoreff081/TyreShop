@@ -195,9 +195,11 @@ namespace Tyreshop
             int tmp = -1; float tmp3 = -1;
             decimal tmp2 = -1; 
             bool Flag = true;
-            int width = 0; float height = 0;
+            int width = 0, quant = 0; float height = 0;
+            if(Quant.Text!=string.Empty)
+                quant = int.Parse(Quant.Text);
             decimal price = 0, optPrice = 0, purPrice=0;
-            string radius = "", art = "", season = "", inCol = "", isCol = "", gruz = "", rft = "", spike = "", country="";
+            string radius = "", art = "", season = "", inCol = "", isCol = "", gruz = "", rft = "", spike = "", country="", manufacturer = "", model="";
             if (Radius.Text != string.Empty)
                 radius = Radius.Text;
             else
@@ -318,6 +320,8 @@ namespace Tyreshop
                             };
                             db.products.Add(newProd);
                             db.SaveChanges();
+                            manufacturer = db.manufacturers.Single(s => s.ManufacturerId == manId).ManufacturerName;
+                            model = db.models.Single(s => s.ModelId == modelId).ModelName;
                             var prodId = newProd.ProductId;
                             if (Stores.SelectedValue != null)
                             {
@@ -326,7 +330,7 @@ namespace Tyreshop
                                 {
                                     if (int.TryParse(Quant.Text, out var tmp4))
                                     {
-                                        var quant = int.Parse(Quant.Text);
+                                        
                                         var pq = new productquantity()
                                         {
                                             ProductId = prodId,
@@ -359,6 +363,43 @@ namespace Tyreshop
                         }
                         else
                             MessageBox.Show("Такой товар уже есть в базе!", "Информация", MessageBoxButton.OK);
+                    }
+                    using (u0324292_mainEntities db2 = new u0324292_mainEntities()) {
+                        int shopStat = 0;
+                        if (quant > 0)//больше нуля - продаем
+                            shopStat = 7;
+                        else//в любом другом случае предзаказ
+                            shopStat = 8;
+                        var id = int.Parse(art);
+                        shop_product sp = new shop_product()
+                        {
+                            product_id = id,//айдишник продукта в сайтовой базе
+                            model = model,//наименование модели
+                            quantity = quant,//количество в наличии
+                            stock_status_id = shopStat,//статус
+                            manufacturer_id = db2.shop_manufacturer.Single(s => s.name == manufacturer).manufacturer_id,//получение и присвоение айдишника производителя
+                            price = price,//цена
+                            status = true,
+                            //subtract = true,
+
+                        };
+                        List<shop_product_attribute> lst = new List<shop_product_attribute>()//список атрибутов
+                        {
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 12, text = width.ToString()},//ширина
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 13, text = height.ToString()},//высота
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 14, text = radius},//радиус
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 15, text = season},//сезон, у меня - зима или лето
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 16, text = inCol},//ИН
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 17, text = isCol},//ИС
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 18, text = rft},//РанФлэт
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 19, text = gruz},//Грузовой
+                            new shop_product_attribute(){ product_id = int.Parse(art), attribute_id = 20, text = spike},//Шипы
+                        };
+                        db2.shop_product.Add(sp);//добавили сам продукт
+                        foreach (var item in lst) {//добавляем все атрибуты шин
+                            db2.shop_product_attribute.Add(item);
+                        }
+                        db2.SaveChanges();
                     }
                 }
                 catch (Exception ex) {
@@ -544,6 +585,7 @@ namespace Tyreshop
                             try
                             {
                                 db.SaveChanges();
+
                             }
                             catch (DbEntityValidationException ex)
                             {

@@ -28,7 +28,7 @@
     <InstallUrl>http://desktop.eurokoleso.ru/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>16</ApplicationRevision>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -215,8 +215,26 @@
     <Compile Include="DailyReportWindow.xaml.cs">
       <DependentUpon>DailyReportWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DbAccess\car.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbAccess\category.cs">
       <DependentUpon>Tyreshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\Eurokoleso.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Eurokoleso.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\Eurokoleso.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\Eurokoleso.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Eurokoleso.edmx</DependentUpon>
     </Compile>
     <Compile Include="DbAccess\manufacturer.cs">
       <DependentUpon>Tyreshop.tt</DependentUpon>
@@ -242,8 +260,425 @@
     <Compile Include="DbAccess\service.cs">
       <DependentUpon>Tyreshop.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbAccess\shop_address.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_affiliate.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_affiliate_activity.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_affiliate_login.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_affiliate_transaction.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_api.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_api_ip.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_api_session.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_attribute.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_attribute_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_attribute_group.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_attribute_group_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_banner.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_banner_image.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_banner_image_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_cart.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_category.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_category_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_category_filter.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_category_path.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_category_to_layout.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_category_to_store.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_comdb_summer.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_comdb_winter.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_country.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_coupon.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_coupon_category.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_coupon_history.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_coupon_product.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_currency.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_activity.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_group.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_group_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_history.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_ip.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_login.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_online.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_reward.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_transaction.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_customer_wishlist.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_custom_field.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_custom_field_customer_group.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_custom_field_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_custom_field_value.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_custom_field_value_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_disks.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_download.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_download_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_dqc_setting.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_event.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_extension.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_filter.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_filter_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_filter_group.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_filter_group_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_geo_zone.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_gift_teaser.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_google_base_category.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_google_base_category_to_category.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_information.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_information_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_information_to_layout.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_information_to_store.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_language.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_layout.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_layout_module.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_layout_route.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_length_class.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_length_class_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_location.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_manufacturer.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_manufacturer_to_store.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_marketing.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_modification.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_module.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_mws_return.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_option.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_option_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_option_value.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_option_value_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_custom_field.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_history.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_option.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_product.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_recurring.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_recurring_transaction.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_status.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_total.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_order_voucher.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_pokupki_orders.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_attribute.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_discount.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_filter.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_image.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_option.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_option_value.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_recurring.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_related.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_reward.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_special.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_to_category.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_to_download.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_to_layout.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_product_to_store.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_recurring.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_recurring_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_return.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_return_action.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_return_history.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_return_reason.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_return_status.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_review.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_setting.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_stock_status.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_store.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_tax_class.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_tax_rate.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_tax_rate_to_customer_group.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_tax_rule.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_tdb_summer.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_tdb_winter.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_upload.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_url_alias.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_user.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_user_group.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_voucher.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_voucher_history.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_voucher_theme.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_voucher_theme_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_weight_class.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_weight_class_description.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_yml.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_zone.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\shop_zone_to_geo_zone.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbAccess\storehouse.cs">
       <DependentUpon>Tyreshop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DbAccess\tsrim.cs">
+      <DependentUpon>Eurokoleso.tt</DependentUpon>
     </Compile>
     <Compile Include="DbAccess\Tyreshop.Context.cs">
       <AutoGen>True</AutoGen>
@@ -368,9 +803,26 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Tyreshop.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <EntityDeploy Include="DbAccess\Eurokoleso.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Eurokoleso.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DbAccess\Eurokoleso.edmx.diagram">
+      <DependentUpon>Eurokoleso.edmx</DependentUpon>
+    </None>
     <None Include="DbAccess\Tyreshop.edmx.diagram">
       <DependentUpon>Tyreshop.edmx</DependentUpon>
     </None>
+    <Content Include="DbAccess\Eurokoleso.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Eurokoleso.edmx</DependentUpon>
+      <LastGenOutput>Eurokoleso.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DbAccess\Eurokoleso.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Eurokoleso.edmx</DependentUpon>
+      <LastGenOutput>Eurokoleso.cs</LastGenOutput>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

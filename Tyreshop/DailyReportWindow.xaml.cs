@@ -225,6 +225,7 @@ namespace Tyreshop
                 var sales = lst.Where(w => w.SaleNumber == dt.SaleNumber).ToList();
                 foreach (var item in sales)
                 {
+                    var prod = new product();
                     if (dt.ProdId != null)
                     {
                         sale = lst.First(s => s.ProductId == dt.ProdId && s.SaleNumber == dt.SaleNumber);
@@ -236,6 +237,7 @@ namespace Tyreshop
                     lst.Remove(sale);
                     using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
                     {
+                        prod = db.products.Single(s=>s.ProductId==item.ProductId);
                         var oper = db.operations.First(s => (s.ProductId == dt.ProdId && s.SaleNumber == dt.SaleNumber) || (s.ServiceId == dt.ServId && s.SaleNumber == dt.SaleNumber));
                         var res = MessageBox.Show("Вы действительно хотите полностью удалить данную операцию? Действие необратимо.", "Информация", MessageBoxButton.OKCancel);
                         if (res == MessageBoxResult.OK)
@@ -247,12 +249,25 @@ namespace Tyreshop
                                 var pq = db.productquantities.First(s => s.StorehouseId == store && s.ProductId == oper.ProductId);
                                 pq.Quantity += quant;
                                 db.Entry(pq).Property(x => x.Quantity).IsModified = true;
+                                using (u0324292_mainEntities db2 = new u0324292_mainEntities())
+                                {
+                                    //var prod = db.products.Single(s => s.ProductId == prodId);
+                                    var id = int.Parse(prod.Articul);
+                                    if (db2.shop_product.Any(a => a.product_id == id))
+                                    {
+                                        var siteProd = db2.shop_product.Single(a => a.product_id == id);
+                                        siteProd.quantity += quant;
+                                        db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
+                                        db2.SaveChanges();
+                                    }
+                                }
                             }
 
                             db.operations.Remove(oper);
                             db.SaveChanges();
                         }
                     }
+                    
                 }
                 Report.Items.Refresh();
             }

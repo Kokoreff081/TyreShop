@@ -204,6 +204,18 @@ namespace Tyreshop
                             }
                             else
                                 MessageBox.Show("На выбранном складе недостаточное количество товара для осуществления брони!", "Информация", MessageBoxButton.OK);
+                            using (u0324292_mainEntities db2 = new u0324292_mainEntities())
+                            {
+                                var prod = db.products.Single(s => s.ProductId == prodId);
+                                var id = int.Parse(prod.Articul);
+                                if (db2.shop_product.Any(a => a.product_id == id))
+                                {
+                                    var siteProd = db2.shop_product.Single(a => a.product_id == id);
+                                    siteProd.quantity -= quant;
+                                    db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
+                                    db2.SaveChanges();
+                                }
+                            }
                         }
                         LoadOrderList();
                     }
@@ -236,6 +248,18 @@ namespace Tyreshop
                         db.Entry(prodQuant).Property(p => p.InOrder).IsModified = true;
                         db.SaveChanges();
                         MessageBox.Show("Бронь успешно удалена!", "Информация", MessageBoxButton.OK);
+                        using (u0324292_mainEntities db2 = new u0324292_mainEntities())
+                        {
+                            var prod = db.products.Single(s => s.ProductId == order.ProductId);
+                            var id = int.Parse(prod.Articul);
+                            if (db2.shop_product.Any(a => a.product_id == id))
+                            {
+                                var siteProd = db2.shop_product.Single(a => a.product_id == id);
+                                siteProd.quantity += quant;
+                                db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
+                                db2.SaveChanges();
+                            }
+                        }
                         LoadOrderList();
                     }
                 }

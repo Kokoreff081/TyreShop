@@ -387,6 +387,20 @@ namespace Tyreshop
                             store.Quantity -= item.Quantity;
                             db.Entry(store).Property(p => p.Quantity).IsModified = true;
                         }
+                        if (item.ProductId != null && item.ProductId != 0) {
+                            using (u0324292_mainEntities db2 = new u0324292_mainEntities())
+                            {
+                                var prod = db.products.Single(s => s.ProductId == item.ProductId);
+                                var id = int.Parse(prod.Articul);
+                                if (db2.shop_product.Any(a => a.product_id == id))
+                                {
+                                    var siteProd = db2.shop_product.Single(a => a.product_id == id);
+                                    siteProd.quantity -= item.Quantity;
+                                    db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
+                                    db2.SaveChanges();
+                                }
+                            }
+                        }
                     }
                     db.SaveChanges();
                     sales.Clear();
@@ -396,6 +410,7 @@ namespace Tyreshop
                     PrintSale.IsEnabled = false;
                     Savedoperation = true;
                 }
+
             }
             catch (Exception ex)
             {
