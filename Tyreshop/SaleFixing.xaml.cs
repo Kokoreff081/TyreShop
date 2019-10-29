@@ -22,6 +22,7 @@ using System.Drawing.Printing;
 using System.Printing;
 using System.Drawing;
 using NLog;
+using System.Threading;
 
 namespace Tyreshop
 {
@@ -72,6 +73,7 @@ namespace Tyreshop
 
         private void AddToSaleBtn_Click(object sender, RoutedEventArgs e)
         {
+            DelSaleButtonTag tag = new DelSaleButtonTag();
             var newSale = new DGSaleItems();
             var newSale2 = new DGSaleItems();
             int cardToTotalSum = -1;
@@ -94,6 +96,10 @@ namespace Tyreshop
                 
                 if (Products.SelectedValue != null)
                 {
+                    tag.ServId = null;
+                    tag.ProdId = (int)Products.SelectedValue;
+                    tag.AnotherId = null;
+                    tag.SaleNumber = sales.Count + 1;
                     newSale.ProductId = (int)Products.SelectedValue;
                     newSale.ProdName = Products.Text;
                     newSale.ProductId = (int)Products.SelectedValue;
@@ -107,7 +113,7 @@ namespace Tyreshop
                     newSale.CardToTotalSum = cardToTotalSum;
                     newSale.Comment = OperComment.Text;
                     newSale.UserId = managerId;
-                    //newSale.TagToBtn = tag;
+                    newSale.TagToBtn = tag;
                     if (PayTypeCheckBox.IsChecked == true)
                         newSale.PayType = "Безналичный расчет";
                     else
@@ -116,7 +122,6 @@ namespace Tyreshop
                         newSale.CardPayed = "Да";
                     else
                         newSale.CardPayed = "Нет";
-
                     if (!sales.Any(a => a.ProductId == (int)Products.SelectedValue))
                         sales.Add(newSale);
                     else
@@ -166,13 +171,11 @@ namespace Tyreshop
             {
                 if (Services.SelectedValue != null)
                 {
-                    DelSaleButtonTag tag = new DelSaleButtonTag()
-                    {
-                        ServId = (int)Services.SelectedValue,
-                        ProdId = null,
-                        AnotherId = null,
-                        SaleNumber = sales.Count + 1
-                    };
+                    string servComment = "";
+                    tag.ServId = (int)Services.SelectedValue;
+                    tag.ProdId = null;
+                    tag.AnotherId = null;
+                    tag.SaleNumber = sales.Count + 1;
                     if (CardPayServ.IsChecked == true)
                     {
                         var res = MessageBox.Show("Платеж на карте. Добавлять данную сумму в общую дневную выручку наличных?", "Информация", MessageBoxButton.OKCancel);
@@ -191,7 +194,8 @@ namespace Tyreshop
                         servQuant = int.Parse(QuantityServ.Text);
                         flag = true;
                     }
-
+                    if (ServComment.Text != string.Empty)
+                        servComment = ServComment.Text;
                     string PayType = "";
                     if (PayTypeCheckBoxServ.IsChecked == true)
                         PayType = "Безналичный расчет";
@@ -219,7 +223,8 @@ namespace Tyreshop
                             CardPayed = CardPayed,
                             CardToTotalSum = cardToTotalSum,
                             TagToBtn = tag,
-                            UserId = managerId
+                            UserId = managerId,
+                            Comment = servComment
                     };
                         sales.Add(newSale);
                         salesToCheck.Add(newSale);
@@ -243,6 +248,15 @@ namespace Tyreshop
                 log.Error(ex.Message + " \n" + ex.StackTrace);
                 MessageBox.Show("Кажется, что-то пошло не так...", "Информация", MessageBoxButton.OK);
             }
+            decimal totalSum = 0;
+            if (sales.Any(a=>a.ProdName== "Общая сумма чека")) {
+                var sale = sales.Single(s => s.ProdName == "Общая сумма чека");
+                sales.RemoveAt(sales.IndexOf(sale));
+            }
+            foreach (var sale in sales) {
+                totalSum += sale.Price;
+            }
+            sales.Add(new DGSaleItems() { ProdName = "Общая сумма чека", Price = totalSum });
             DGSaleFix.ItemsSource = sales;
             DGSaleFix.Items.Refresh();
 
@@ -260,6 +274,7 @@ namespace Tyreshop
             ServicePrice.Text = "";
             SaleSave.IsEnabled = true;
             PrintSale.IsEnabled = true;
+            Thread.Sleep(500);
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -482,7 +497,7 @@ namespace Tyreshop
 
             int counter = 12;
             decimal totalSum = 0;
-            for (int i = 0; i < sales.Count; i++) {
+            for (int i = 0; i < sales.Count-1; i++) {
                 var item = sales[i];
                 sheet.Range["A"+counter+":B"+counter].Merge();
                 sheet.Range["A" + counter].Text = item.SaleNumber.ToString();
@@ -633,6 +648,52 @@ namespace Tyreshop
         private void QuantityOtherProduct_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void DelSale_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            DelSaleButtonTag dt = btn.Tag as DelSaleButtonTag;
+            try
+            {
+                DGSaleItems sale = new DGSaleItems();
+                var lst = sales.Where(w => w.SaleNumber == dt.SaleNumber).ToList();
+                List<DGSaleItems> tmpLst = new List<DGSaleItems>();
+                foreach (var item in sales)
+                {
+                    if (dt.ProdId != item.ProductId && item.ProductId!=null)
+                    {
+                        //lst.Remove(item);
+                        tmpLst.Add(item);//sales.Remove(item);
+                    }
+                    if (dt.ServId != item.ServiceId && item.ServiceId != null)
+                    {
+                        //lst.Remove(item);
+                        tmpLst.Add(item);//sales.Remove(item);
+                    }
+                    
+                }
+                sales = tmpLst;
+                salesToCheck = tmpLst;
+                decimal totalSum = 0;
+                if (sales.Any(a => a.ProdName == "Общая сумма чека"))
+                {
+                    var sale2 = sales.Single(s => s.ProdName == "Общая сумма чека");
+                    sales.RemoveAt(sales.IndexOf(sale2));
+                }
+                foreach (var sale2 in sales)
+                {
+                    totalSum += sale2.Price;
+                }
+                if(totalSum>0)
+                    sales.Add(new DGSaleItems() { ProdName = "Общая сумма чека", Price = totalSum });
+                DGSaleFix.ItemsSource = sales;
+                DGSaleFix.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                int point = 0;
+            }
         }
     }
 }

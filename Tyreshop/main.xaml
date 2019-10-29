@@ -27,7 +27,7 @@
                             <Button Name="AddUser" Content="Управление пользователями" Click="AddUser_Click" Margin="5,0,5,0" Width="170" />
                             <Button Name="AddService" Content="Добавить услугу" Click="AddService_Click" Margin="5,0,5,0" Width="170"/>
                             <Button Name="AddCategory" Content="Добавить категорию товаров" Click="AddCategory_Click" Visibility="Collapsed" Margin="5,0,5,0"/>
-                            <Button Name="ProductsExpostXlsx" Content="Экспорт товаров в Excel" Click="ProductsExpostXlsx_Click" Margin="5,0,5,0" Width="170"/>
+                            <Button Name="ProductsExpostXlsx" Content="Экспорт товаров в Excel" Click="ProductsExpostXlsx_Click" Margin="5,0,5,0" Width="170" IsEnabled="True"/>
                         </StackPanel>
                     </StackPanel>
             </DockPanel>
@@ -54,6 +54,16 @@
                                     <Style TargetType="{x:Type TreeViewItem}">
                                         <Setter Property="Uid" Value="Store"/>
                                         <Setter Property="Tag" Value="{Binding StoreId}"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Foreground" Value="DarkBlue"/>
+                                                <!--<Setter Property="FontStyle" Value="Oblique"/>-->
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter Property="Foreground" Value="Black"/>
+                                                <!--<Setter Property="FontStyle" Value="Normal"/>-->
+                                            </Trigger>
+                                        </Style.Triggers>
                                     </Style>
                                 </HierarchicalDataTemplate.ItemContainerStyle>
                                 <TextBlock Text="{Binding CategoryName}"/>
@@ -70,6 +80,7 @@
       to all TreeViweItems when they are generated-->
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <Setter Property="IsExpanded" Value="True"/>
+                                
                             </Style>
                         </TreeView.ItemContainerStyle>
                     </TreeView>
@@ -106,6 +117,7 @@
                                     <Label Content="Шипы" Margin="5,0,5,0"/>
                                     <ComboBox Name="Spikes" Margin="5,0,5,0" SelectionChanged="Spikes_SelectionChanged" Width="75"/>
                                     <Button Name="ResetFilters" Margin="5,0,5,0" Content="Сброс фильтров" Click="ResetFilters_Click"/>
+                                    <Label Name="ProdCount" Margin="5,0,5,0" FontSize="12" FontWeight="Bold" Foreground="DarkBlue"/>
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>

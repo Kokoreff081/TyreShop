@@ -87,7 +87,7 @@ namespace Tyreshop
                 using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
                 {
                     prodPrice = (decimal)_MainList.Where(w => w.ProductId == prodId).Select(s => s.Price).FirstOrDefault();
-                    var storehouses = db.productquantities.Where(w => w.ProductId == prodId).Join(db.storehouses, pq => pq.StorehouseId, s => s.StorehouseId, (pq, s) => new { StoreHouseId = pq.StorehouseId, StoreHouseName = s.StorehouseName }).ToList();
+                    var storehouses = db.productquantities.Where(w => w.ProductId == prodId && w.Quantity>0).Join(db.storehouses, pq => pq.StorehouseId, s => s.StorehouseId, (pq, s) => new { StoreHouseId = pq.StorehouseId, StoreHouseName = s.StorehouseName }).ToList();
                     Storehouse.ItemsSource = storehouses;
                     Storehouse.SelectedValuePath = "StoreHouseId";
                     Storehouse.DisplayMemberPath = "StoreHouseName";

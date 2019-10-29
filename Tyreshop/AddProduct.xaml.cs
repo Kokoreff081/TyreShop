@@ -983,13 +983,39 @@ namespace Tyreshop
                                     }
                                     if (j == 33)
                                     {
+                                        if (int.TryParse(text, out var tmp))
+                                        {
+                                            item.Storehouse.Add(new ProductQuantity()
+                                            {
+                                                // ProductId = number,
+                                                Quantity = int.Parse(text),
+                                                StorehouseName = "Петроспирт Контейнер 4",
+                                                StorehouseId = db.storehouses.Where(w => w.StorehouseName == "Петроспирт Контейнер 4").Select(s => s.StorehouseId).First()
+                                            });
+                                        }
+                                    }
+                                    if (j == 34)
+                                    {
+                                        if (int.TryParse(text, out var tmp))
+                                        {
+                                            item.Storehouse.Add(new ProductQuantity()
+                                            {
+                                                // ProductId = number,
+                                                Quantity = int.Parse(text),
+                                                StorehouseName = "Будка",
+                                                StorehouseId = db.storehouses.Where(w => w.StorehouseName == "Будка").Select(s => s.StorehouseId).First()
+                                            });
+                                        }
+                                    }
+                                    if (j == 35)
+                                    {
                                         bool res = decimal.TryParse(text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var tmp);
                                         if (res)
                                         {
                                             item.PurPrice = decimal.Parse(text, CultureInfo.InvariantCulture);
                                         }
                                     }
-                                    if (j == 34)
+                                    if (j == 36)
                                     {
                                         bool res = decimal.TryParse(text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var tmp);
                                         if (res)
@@ -997,7 +1023,7 @@ namespace Tyreshop
                                             item.Price = decimal.Parse(text, CultureInfo.InvariantCulture);
                                         }
                                     }
-                                    if (j == 35)
+                                    if (j == 37)
                                     {
                                         bool res = decimal.TryParse(text, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var tmp);
                                         if (res)
@@ -1199,35 +1225,53 @@ namespace Tyreshop
                 if (res == MessageBoxResult.OK) {
                     try
                     {
+                        bool flag = true;
                         using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
                         {
                             var prod = db.products.Single(s => s.ProductId == prodId);
-                            db.products.Remove(prod);
-                            var quants = db.productquantities.Where(w => w.ProductId == prodId).ToList();
-                            foreach (var item in quants)
-                            {
-                                db.productquantities.Remove(item);
+                            var operations = db.operations.ToList();
+                            if (operations.Any(a => a.ProductId == prod.ProductId)) {
+                                flag = false;
                             }
-                            db.SaveChanges();
+                            if (flag)
+                            {
+                                db.products.Remove(prod);
+                                var quants = db.productquantities.Where(w => w.ProductId == prodId).ToList();
+                                foreach (var item in quants)
+                                {
+                                    db.productquantities.Remove(item);
+                                }
+                                db.SaveChanges();
+                                WidthEdit.Text = "";
+                                HeightEdit.Text = "";
+                                RadiusEdit.Text = "";
+                                InColEdit.Text = "";
+                                IsColEdit.Text = "";
+                                CountryEdit.Text = "";
+                                GruzEdit.Text = "";
+                                SpikesEdit.Text = "";
+                                RFTEdit.Text = "";
+                                SeasonEdit.Text = "";
+                                PriceEdit.Text = "";
+                                PurchasePriceEdit.Text = "";
+                                OptPriceEdit.Text = "";
+                                ModelsEdit.SelectionChanged -= ModelsEdit_SelectionChanged;
+                                ModelsEdit.SelectedValue = -1;
+                                ModelsEdit.SelectionChanged += ModelsEdit_SelectionChanged;
+                                MessageBox.Show("Товар удален!", "Информация", MessageBoxButton.OK);
+                            }
+                            else {
+                                var tmp = db.operations.Where(w=>w.ProductId==prod.ProductId).ToList();
+                                string saleString = "";
+                                foreach (var item in tmp) {
+                                    saleString += item.SaleNumber.ToString() + "/" + item.OperationDate.ToString()+"\n";
+                                }
+                                string msg = @"Удаляемый товар уже был продан, для корректной работы программы удалите продажи выбранного товара: \n"+saleString;
+                                MessageBox.Show(msg, "Информация", MessageBoxButton.OK);
+                            }
 
                         }
-                        WidthEdit.Text = "";
-                        HeightEdit.Text = "";
-                        RadiusEdit.Text = "";
-                        InColEdit.Text = "";
-                        IsColEdit.Text = "";
-                        CountryEdit.Text = "";
-                        GruzEdit.Text = "";
-                        SpikesEdit.Text = "";
-                        RFTEdit.Text = "";
-                        SeasonEdit.Text = "";
-                        PriceEdit.Text = "";
-                        PurchasePriceEdit.Text = "";
-                        OptPriceEdit.Text = "";
-                        ModelsEdit.SelectionChanged -= ModelsEdit_SelectionChanged;
-                        ModelsEdit.SelectedValue = -1;
-                        ModelsEdit.SelectionChanged += ModelsEdit_SelectionChanged;
-                        MessageBox.Show("Товар удален!", "Информация", MessageBoxButton.OK);
+                        
                     }
                     catch (Exception ex)
                     {

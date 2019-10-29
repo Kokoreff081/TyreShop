@@ -65,25 +65,7 @@ namespace Tyreshop
             tbFilters.Add(Gruz);
             tbFilters.Add(Radius);
             tmp = new List<BdProducts>();
-            try
-            {
-                using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
-                {
-                    listPCombo = db.products.Select(s => new PComboBox()
-                    {
-                        ProductId = s.ProductId,
-                        ProductName = @"" + db.manufacturers.Where(w => w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ManufacturerName.Trim()).FirstOrDefault() + " " +
-                            db.models.Where(w => w.ModelId == s.ModelId && w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ModelName.Trim()).FirstOrDefault() + " " + s.Width + "/" + s.Height + "/"
-                            + s.Radius + "/" + s.RFT + "/" + s.IsCol + "/" + s.InCol
-                    })
-                    .OrderBy(o => o.ProductName)
-                    .ToList();
-                }
-            }
-            catch (Exception e) {
-                log.Error(e.Message + " \n" + e.StackTrace);
-                MessageBox.Show("Кажется, что-то пошло не так...", "Информация", MessageBoxButton.OK);
-            }
+            
             
         }
 
@@ -222,27 +204,27 @@ namespace Tyreshop
 
         private void ProductTV_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            TreeViewItem prevItem;
             TreeView item = sender as TreeView;
             TreeViewItem selectedItem = ContainerFromItem(ProductTV.ItemContainerGenerator, item.SelectedItem);
+
             string type = selectedItem.Uid;
             if (type == "Store")
             {
                 string rad = selectedItem.Tag.ToString();
                 int store = int.Parse(rad);
-                tmpList = MainList.Where(w=>w.Storehouse.Any(a=>a.StorehouseId==store)).ToList();
+                tmpList = MainList.Where(w=>w.Storehouse.Any(a=>a.StorehouseId==store && a.Quantity>0)).ToList();
                 Details.ItemsSource = tmpList;
+                ProdCount.Content = "Всего наименований товаров на складе:" + tmpList.Count;
                 if (_user.Role != "admin")
                     Details.Columns[14].Visibility = Visibility.Collapsed;
-                Radius.Visibility = Visibility.Collapsed;
-                RadiusLbl.Visibility = Visibility.Collapsed;
             }
             else {
                 tmpList = MainList;
                 Details.ItemsSource = MainList;
+                ProdCount.Content = "Всего наименований товаров:" + tmpList.Count;
                 if (_user.Role != "admin")
                     Details.Columns[14].Visibility = Visibility.Collapsed;
-                Radius.Visibility = Visibility.Visible;
-                RadiusLbl.Visibility = Visibility.Visible;
             }
         }
 
@@ -297,6 +279,26 @@ namespace Tyreshop
                 }
             }
             catch (Exception e) { log.Error(e.Message + " \n" + e.StackTrace); MessageBox.Show("Кажется, что-то пошло не так...", "Информация", MessageBoxButton.OK); }
+            try
+            {
+                using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
+                {
+                    listPCombo = db.products.Select(s => new PComboBox()
+                    {
+                        ProductId = s.ProductId,
+                        ProductName = @"" + db.manufacturers.Where(w => w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ManufacturerName.Trim()).FirstOrDefault() + " " +
+                            db.models.Where(w => w.ModelId == s.ModelId && w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ModelName.Trim()).FirstOrDefault() + " " + s.Width + "/" + s.Height + "/"
+                            + s.Radius + "/" + s.RFT + "/" + s.IsCol + "/" + s.InCol
+                    })
+                    .OrderBy(o => o.ProductName)
+                    .ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error(e.Message + " \n" + e.StackTrace);
+                MessageBox.Show("Кажется, что-то пошло не так...", "Информация", MessageBoxButton.OK);
+            }
             return prods;
         }
 

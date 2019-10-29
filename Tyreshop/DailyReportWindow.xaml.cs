@@ -56,6 +56,11 @@ namespace Tyreshop
                     decimal totalSum = 0;
                     foreach (var oper in operations)
                     {
+                        string uName = "";
+                        if (users.Exists(e => e.UserId == oper.UserId))
+                            uName = users.Single(s => s.UserId == oper.UserId).UserName;
+                        else
+                            uName = users.Single(s => s.UserId == 14).UserName;
                         DelSaleButtonTag tag = new DelSaleButtonTag();
                         if (oper.ProductId!=null) {
                             tag.ServId = null;
@@ -100,7 +105,7 @@ namespace Tyreshop
                         }
                         if (oper.OperationType == "Списание наличных")
                             totalSum -= oper.Price;
-                        dg.UserName = users.Where(w => w.UserId == oper.UserId || w.UserId==14).Select(s => s.UserName).First();
+                        dg.UserName = uName;
                         dg.User = users;
                         lst.Add(dg);
                     }
@@ -217,31 +222,36 @@ namespace Tyreshop
             try
             {
                 DGSaleItems sale=new DGSaleItems();
-                if (dt.ProdId != null)
+                var sales = lst.Where(w => w.SaleNumber == dt.SaleNumber).ToList();
+                foreach (var item in sales)
                 {
-                    sale = lst.Single(s => s.ProductId == dt.ProdId && s.SaleNumber == dt.SaleNumber);
-                }
-                if (dt.ServId != null) {
-                    sale = lst.Single(s=>s.ServiceId == dt.ServId && s.SaleNumber == dt.SaleNumber);
-                }
-                lst.Remove(sale);
-                using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
-                {
-                    var oper = db.operations.Single(s => (s.ProductId == dt.ProdId && s.SaleNumber == dt.SaleNumber) || (s.ServiceId == dt.ServId && s.SaleNumber == dt.SaleNumber) );
-                    var res = MessageBox.Show("Вы действительно хотите полностью удалить данную операцию? Действие необратимо.", "Информация", MessageBoxButton.OKCancel);
-                    if (res == MessageBoxResult.OK)
+                    if (dt.ProdId != null)
                     {
-                        if (oper.ProductId != null && oper.ProductId!=0)
+                        sale = lst.First(s => s.ProductId == dt.ProdId && s.SaleNumber == dt.SaleNumber);
+                    }
+                    if (dt.ServId != null)
+                    {
+                        sale = lst.First(s => s.ServiceId == dt.ServId && s.SaleNumber == dt.SaleNumber);
+                    }
+                    lst.Remove(sale);
+                    using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
+                    {
+                        var oper = db.operations.First(s => (s.ProductId == dt.ProdId && s.SaleNumber == dt.SaleNumber) || (s.ServiceId == dt.ServId && s.SaleNumber == dt.SaleNumber));
+                        var res = MessageBox.Show("Вы действительно хотите полностью удалить данную операцию? Действие необратимо.", "Информация", MessageBoxButton.OKCancel);
+                        if (res == MessageBoxResult.OK)
                         {
-                            int store = db.storehouses.Single(s => s.StorehouseName == oper.Storehouse).StorehouseId;
-                            int quant = oper.Count;
-                            var pq = db.productquantities.Single(s => s.StorehouseId == store && s.ProductId == oper.ProductId);
-                            pq.Quantity += quant;
-                            db.Entry(pq).Property(x => x.Quantity).IsModified = true;
-                        }
+                            if (oper.ProductId != null && oper.ProductId != 0)
+                            {
+                                int store = db.storehouses.First(s => s.StorehouseName == oper.Storehouse).StorehouseId;
+                                int quant = oper.Count;
+                                var pq = db.productquantities.First(s => s.StorehouseId == store && s.ProductId == oper.ProductId);
+                                pq.Quantity += quant;
+                                db.Entry(pq).Property(x => x.Quantity).IsModified = true;
+                            }
 
-                        db.operations.Remove(oper);
-                        db.SaveChanges();
+                            db.operations.Remove(oper);
+                            db.SaveChanges();
+                        }
                     }
                 }
                 Report.Items.Refresh();
@@ -281,13 +291,25 @@ namespace Tyreshop
                 string saleDate = "";
                 string productPrice = "";
                 List<operation> saleNumbers = new List<operation>();
-                List<DGSaleItems> sales = lst.Where(w=>w.SaleNumber==dt.SaleNumber).ToList();
+                var tmp = lst.Where(w => w.SaleNumber == dt.SaleNumber).ToList();
+                List<DGSaleItems> sales = new List<DGSaleItems>();
+                foreach (var t in tmp) {
+                    if (!sales.Any(a => a.ProductId == t.ProductId))
+                        sales.Add(t);
+                    else
+                    {
+                        var sale = sales.Single(w => w.ProductId == t.ProductId);
+                        sale.Quantity += t.Quantity;
+                        sale.Price += t.Price;
+                    }
+                }
                 using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
                 {
                     saleNumbers = db.operations.Where(w=>w.SaleNumber==dt.SaleNumber).ToList();
                     saleNumber = dt.SaleNumber.ToString();
                     saleDate = saleNumbers[0].OperationDate.ToString("m", CultureInfo.CurrentUICulture) + " " + saleNumbers[0].OperationDate.ToString("yyyy");
-                    productPrice = db.products.Where(w => w.ProductId == saleNumbers[0].ProductId).Select(s => s.Price).FirstOrDefault().ToString();
+                    var pId = saleNumbers[0].ProductId;
+                    productPrice = db.products.Where(w => w.ProductId == pId).Select(s => s.Price).FirstOrDefault().ToString();
                 }
                 string header = @"Продавец: ИП Разуменко Анна Игоревна
 ИНН: 390103431861
@@ -423,6 +445,26 @@ namespace Tyreshop
             catch (Exception ex)
             {
                 int point = 0;
+            }
+        }
+
+        private void GenerateReportPeriod_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectDateFrom.SelectedDate != null && SelectDateTo.SelectedDate != null) {
+                var from = SelectDateFrom.SelectedDate;
+                var to = SelectDateTo.SelectedDate;
+                try
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "Excel file (*.xlsx)|*.xlsx";
+                    if (sfd.ShowDialog() == true)
+                    {
+                        XlsxExport.ExportDailyReport(sfd, from, to);
+                    }
+                }
+                catch (Exception ex) {
+                    int point = 0;
+                }
             }
         }
     }

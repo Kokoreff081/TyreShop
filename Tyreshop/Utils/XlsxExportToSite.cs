@@ -47,7 +47,7 @@ namespace Tyreshop.Utils
                 SheetDimension sheetDimension1 = new SheetDimension() { Reference = "A1:AMK6" };
                 //добавление стилей
                 WorkbookStylesPart wbStyles = wbpart.AddNewPart<WorkbookStylesPart>();
-                wbStyles.Stylesheet = XlsxRutine.GenerateStyleSheetForExportToSite();// GenerateStylesShort();
+                wbStyles.Stylesheet = XlsxRutine.GenerateStyleSheetForExport2();// GenerateStylesShort();
                 wbStyles.Stylesheet.Save();
                 //wbpart.AddNewPart<ThemePart>("rId4");
                 //GenerateThemePart1Content(wbpart.ThemePart);
@@ -61,34 +61,48 @@ namespace Tyreshop.Utils
                 sheetViews1.Append(sheetView1);
                 SheetFormatProperties sheetFormatProperties1 = new SheetFormatProperties() { DefaultRowHeight = 12.8D, DyDescent = 0.25D };
                 Columns columns1 = new Columns();
-                columns1.Append(new Column() { Min = (UInt32Value)2U, Max = (UInt32Value)2U, Width = 11D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)3U, Max = (UInt32Value)3U, Width = 13.42578125D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)4U, Max = (UInt32Value)4U, Width = 15.28515625D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)5U, Max = (UInt32Value)5U, Width = 28.7109375D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)6U, Max = (UInt32Value)6U, Width = 5.140625D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)7U, Max = (UInt32Value)7U, Width = 4.42578125D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)8U, Max = (UInt32Value)8U, Width = 5.28515625D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)9U, Max = (UInt32Value)9U, Width = 7.85546875D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)10U, Max = (UInt32Value)10U, Width = 3.5703125D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)11U, Max = (UInt32Value)11U, Width = 7.7109375D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)12U, Max = (UInt32Value)12U, Width = 5.5703125D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)13U, Max = (UInt32Value)13U, Width = 4.85546875D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)14U, Max = (UInt32Value)14U, Width = 4.42578125D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)15U, Max = (UInt32Value)15U, Width = 6D, BestFit = true, CustomWidth = true });
-                columns1.Append(new Column() { Min = (UInt32Value)16U, Max = (UInt32Value)16U, Width = 13.5703125D, BestFit = true, CustomWidth = true });
+                columns1.Append(new Column() { Min = (UInt32Value)1U, Max = (UInt32Value)1U, Width = 16D, Style = (UInt32Value)6U, CustomWidth = true });//a
+                columns1.Append(new Column() { Min = (UInt32Value)2U, Max = (UInt32Value)2U, Width = 19.4285714285714D, Style = (UInt32Value)2U, CustomWidth = true });//b
+                columns1.Append(new Column() { Min = (UInt32Value)3U, Max = (UInt32Value)3U, Width = 13.4285714285714D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//c
+                columns1.Append(new Column() { Min = (UInt32Value)4U, Max = (UInt32Value)4U, Width = 15.2857142857143D, Style = (UInt32Value)1U, BestFit = true, CustomWidth = true });//d
+                columns1.Append(new Column() { Min = (UInt32Value)5U, Max = (UInt32Value)5U, Width = 28.7142857142857D, Style = (UInt32Value)1U, BestFit = true, CustomWidth = true });//e
+                columns1.Append(new Column() { Min = (UInt32Value)6U, Max = (UInt32Value)6U, Width = 5.71428571428571D, Style = (UInt32Value)2U, CustomWidth = true });//f
+                columns1.Append(new Column() { Min = (UInt32Value)7U, Max = (UInt32Value)7U, Width = 4.42857142857143D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//g
+                columns1.Append(new Column() { Min = (UInt32Value)8U, Max = (UInt32Value)8U, Width = 5.28571428571429D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//h
+                columns1.Append(new Column() { Min = (UInt32Value)9U, Max = (UInt32Value)9U, Width = 7.85714285714286D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//i
+                columns1.Append(new Column() { Min = (UInt32Value)10U, Max = (UInt32Value)10U, Width = 3.57142857142857D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//j
+                columns1.Append(new Column() { Min = (UInt32Value)11U, Max = (UInt32Value)11U, Width = 7.71428571428571D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//k
+                columns1.Append(new Column() { Min = (UInt32Value)12U, Max = (UInt32Value)12U, Width = 5.57142857142857D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//l
+                columns1.Append(new Column() { Min = (UInt32Value)13U, Max = (UInt32Value)13U, Width = 4.85714285714286D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//m
+                columns1.Append(new Column() { Min = (UInt32Value)14U, Max = (UInt32Value)14U, Width = 12.4285714285714D, Style = (UInt32Value)2U, CustomWidth = true });//n
+                columns1.Append(new Column() { Min = (UInt32Value)15U, Max = (UInt32Value)15U, Width = 14.8571428571429D, Style = (UInt32Value)10U, CustomWidth = true });//o
+                columns1.Append(new Column() { Min = (UInt32Value)16U, Max = (UInt32Value)16U, Width = 16D, Style = (UInt32Value)10U, CustomWidth = true });//p
+                columns1.Append(new Column() { Min = (UInt32Value)17U, Max = (UInt32Value)31U, Width = 3.71428571428571D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//q
+                columns1.Append(new Column() { Min = (UInt32Value)32U, Max = (UInt32Value)32U, Width = 7.28571428571429D, Style = (UInt32Value)12U, CustomWidth = true });//r
+                columns1.Append(new Column() { Min = (UInt32Value)33U, Max = (UInt32Value)38U, Width = 3.71428571428571D, Style = (UInt32Value)2U, BestFit = true, CustomWidth = true });//s
 
                 SheetData sheetData = new SheetData();
-                List<string> headerRow = new List<string>() {"Сезон", "Артикул", "Размеры", "Производитель", "Модель", "Шир", "Выс", "Рад", "ИН", "ИС", "RFT", "ШИП", "Груз", "Кол", "Цена", "Оптовая цена" };
-                using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities())
-                {
-                    var stores = db.storehouses.OrderBy(o => o.StorehouseId).Select(s => s.StorehouseName).Distinct().ToList();
-                    headerRow.AddRange(stores);
-                }
+                List<string> headerRow = new List<string>() {"Сезон", "Артикул", "Размеры", "Производитель", "Модель", "Шир", "Выс", "Рад", "ИН", "ИС", "RFT", "ШИП", "Груз", "Кол", "Цена",
+                    "Оптовая цена", "Контейнер 7", "Контейнер 6", "Контейнер 5", "Контейнер 4","Контейнер 3","Контейнер 2","Контейнер 1","Задний Бокс","Витрины","Улица","Петроспирт контейнер 1",
+                                        //29        28              27              26              25          24              23          22              21      30          31
+                    "Петроспирт контейнер 2","Петроспирт контейнер 3", "Петроспирт Ангар Левый контик","Петроспирт Ангар Левый Бокс","Петроспирт Ангар Центральный контейнер",
+                        //32                    33                          34                                  35                              36
+                    "Петроспирт Ангар Правый бокс","Петроспирт Ангар Правый контейнер","Гараж таллинское шоссе", "Фрунзенская контейнер","Петроспирт Контейнер 4","Будка" };
+                            //37                        38                                  39                      40                          41                   42
                 uint rowInd = 1U;
                 int cellNum = 1;
-                Row rowHead = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D };
-                foreach (string s in headerRow) {
-                    cellNum = XlsxRutine.InsertCellToRow(rowHead, cellNum, s, shareStringPart);
+                Row rowHead = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D, Height=219D };
+                for (int i=0;i<headerRow.Count; i++) {
+                    string s = headerRow[i];
+                    if (i <= 15)
+                    {
+                        if(i==14 || i == 15)
+                            cellNum = XlsxRutine.InsertCellToRow(rowHead, cellNum, s, shareStringPart, 8U);
+                        else
+                            cellNum = XlsxRutine.InsertCellToRow(rowHead, cellNum, s, shareStringPart, 7U);
+                    }
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(rowHead, cellNum, s, shareStringPart, 14U);
                 }
                 sheetData.AppendChild(rowHead);
                 rowInd++;
@@ -96,26 +110,136 @@ namespace Tyreshop.Utils
                 foreach (var prod in list) {
                     string sizes = prod.Width + ", " + prod.Height + ", " + prod.Radius;
                     Row prodRow = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D };
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Season, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Articul, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, sizes, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Manufacturer, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Model, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Width.ToString(), shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Height.ToString(), shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Radius, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.InCol, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.IsCol, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.RFT, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Spikes, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Gruz, shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.TotalQuantity.ToString(), shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Price.ToString(), shareStringPart);
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.OptPrice.ToString(), shareStringPart);
-                    foreach (var item in prod.Storehouse.Where(w => w.ProductId == prod.ProductId).OrderBy(o=>o.StorehouseId))
-                    {
-                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, item.Quantity.ToString(), shareStringPart);
-                    }
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Season, shareStringPart, 5U);//a
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Articul, shareStringPart, 3U);//b
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, sizes, shareStringPart,3U);//c
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Manufacturer, shareStringPart, 4U);//d
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Model, shareStringPart, 4U);//e
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Width.ToString(), shareStringPart, 3U);//f
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Height.ToString(), shareStringPart, 3U);//g
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Radius, shareStringPart, 3U);//h
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.InCol, shareStringPart, 3U);//i
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.IsCol, shareStringPart, 3U);//j
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.RFT, shareStringPart, 3U);//k
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Spikes, shareStringPart, 3U);//l
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Gruz, shareStringPart, 3U);//m
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.TotalQuantity.ToString(), shareStringPart, 3U);//n
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Price.ToString(), shareStringPart, 9U);//o
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.OptPrice.ToString(), shareStringPart, 9U);//p
+                    var store = prod.Storehouse;
+                    if(store.Exists(w => w.StorehouseId == 29 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w=>w.StorehouseId==29 && w.ProductId==prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 28 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 28 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 27 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 27 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 26 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 26 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 25 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 25 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 24 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 24 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 23 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 23 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q
+                    if (store.Exists(w => w.StorehouseId == 22 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 22 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);//q if(prod.Storehouse.Single(w => w.StorehouseId == 29 && w.ProductId == prod.ProductId).Quantity.ToString()!=string.Empty)
+                    if (store.Exists(w => w.StorehouseId == 21 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 21 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 30 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 30 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 31 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 31 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 32 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 32 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 33 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 33 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 34 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 34 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 35 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 35 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 36 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 36 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 37 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 37 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 38 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 38 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 39 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 39 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 40 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 40 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 41 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 41 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    if (store.Exists(w => w.StorehouseId == 42 && w.ProductId == prod.ProductId))
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 42 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//q
+                    else
+                        cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 28 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//r
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 27 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//s
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 26 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//t
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 25 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//u
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 24 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//v
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 23 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//w
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 22 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//x
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 21 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//y
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 30 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//z
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 31 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//aa
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 32 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ab
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 33 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ac
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 34 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ad
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 35 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ae
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 36 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//af
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 37 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ag
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 38 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ah
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 39 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ai
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 40 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//aj
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 41 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//ak
+                    //cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Storehouse.Single(w => w.StorehouseId == 42 && w.ProductId == prod.ProductId).Quantity.ToString(), shareStringPart, 3U);//al
+                    //foreach (var item in prod.Storehouse)
+                    //{
+
+                    //}
                     sheetData.AppendChild(prodRow);
                     rowInd++;
                     cellNum = 1;
@@ -127,7 +251,7 @@ namespace Tyreshop.Utils
                 wspart.Worksheet.Append(sheetFormatProperties1);
                 wspart.Worksheet.Append(columns1);
                 wspart.Worksheet.Append(sheetData);
-                var autoFilter = new AutoFilter() { Reference = "A:P" };
+                var autoFilter = new AutoFilter() { Reference = "A:AL" };
                 wspart.Worksheet.Append(autoFilter);
                 wspart.Worksheet.Append(pageMargins1);
                 wspart.Worksheet.Append(pageSetup1);
@@ -144,33 +268,54 @@ namespace Tyreshop.Utils
                 System.Diagnostics.Process.Start(fileName);
         }
 
-        public static void ExportDailyReport(SaveFileDialog sfd, DateTime? date) {
+        public static void ExportDailyReport(SaveFileDialog sfd, DateTime? date, DateTime? date2 = null) {
             string fileName = sfd.FileName;
 
             List<operation> list2 = new List<operation>();
+            List<user> users = new List<user>();
             using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities()) {
-                list2 = db.operations.Where(w => w.OperationDate == date).ToList();
-                var users = db.users.Where(w => w.Role == "manager").ToList();
                 var list = db.products.Select(s => new PComboBox()
                 {
                     ProductId = s.ProductId,
                     ProductName = @"" + db.manufacturers.Where(w => w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ManufacturerName).FirstOrDefault() + " " +
-                    db.models.Where(w => w.ModelId == s.ModelId && w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ModelName).FirstOrDefault() + " " + s.Width + " / " + s.Height + " / " + s.Radius
+                        db.models.Where(w => w.ModelId == s.ModelId && w.ManufacturerId == s.ManufacturerId).Select(sel => sel.ModelName).FirstOrDefault() + " " + s.Width + " / " + s.Height + " / " + s.Radius
                 }).ToList();
-                
+                users = db.users.Where(w => w.Role == "manager").ToList();
+                if (date2 == null)
+                {
+                    list2 = db.operations.Where(w => w.OperationDate == date).ToList();
+                }
+                else {
+                    list2 = db.operations.Where(w => w.OperationDate >= date && w.OperationDate <= date2).ToList();
+                }
                 lst2 = new List<DGSaleItems>();
                 foreach (var oper in list2)
                 {
+                    string uName = "";
+                    if (users.Exists(e => e.UserId == oper.UserId))
+                        uName = users.Single(s => s.UserId == oper.UserId).UserName;
+                    else
+                        uName = users.Single(s => s.UserId == 14).UserName;
                     DGSaleItems dg = new DGSaleItems();
                     dg.Comment = oper.Comment;
                     dg.Date = oper.OperationDate.ToString();
                     dg.OperationType = oper.OperationType;
                     dg.PayType = oper.PayType;
                     dg.Price = oper.Price;
-                    if (oper.ProductId != null && oper.ProductId!=0)
-                        dg.ProdName = list.Where(w => w.ProductId == oper.ProductId).Select(s => s.ProductName).First();
-                    else if(oper.ServiceId!=null && oper.ServiceId!=0)
-                        dg.ProdName = db.services.Where(w => w.ServiceId == oper.ServiceId).Select(s => s.ServiceName).First();
+                    if (oper.ProductId != null && oper.ProductId != 0)
+                    {
+                        if (list.Exists(e => e.ProductId == oper.ProductId))
+                            dg.ProdName = list.Where(w => w.ProductId == oper.ProductId).Select(s => s.ProductName).First();
+                        else
+                            continue;
+                    }
+                    else if (oper.ServiceId != null && oper.ServiceId != 0)
+                    {
+                        if (db.services.ToList().Exists(e => e.ServiceId == oper.ServiceId))
+                            dg.ProdName = db.services.Where(w => w.ServiceId == oper.ServiceId).Select(s => s.ServiceName).First();
+                        else
+                            continue;
+                    }
                     dg.Time = oper.OperationTime.ToString();
                     dg.Price = oper.Price;
                     dg.Quantity = oper.Count;
@@ -178,7 +323,8 @@ namespace Tyreshop.Utils
                     dg.SaleNumber = (long)oper.SaleNumber;
                     dg.CardPayed = oper.CardPay;
                     dg.CardToTotalSum = oper.CardToTotalSum;
-                    dg.UserName = users.Where(w => w.UserId == oper.UserId || w.UserId == 14).Select(s => s.UserName).First();
+                    dg.UserName = uName;
+                    dg.UserId = oper.UserId;
                     lst2.Add(dg);
                 }
                 //lst2.Add(new DGSaleItems() { ProdName = "Сдача наличных", Price = totalSum });
@@ -283,7 +429,7 @@ namespace Tyreshop.Utils
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Price.ToString(), shareStringPart, 3U);
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.PayType, shareStringPart, 3U);
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.CardPayed, shareStringPart, 3U);
-                                if (oper.Comment != string.Empty)
+                                if (oper.Comment != string.Empty && oper.Comment!=null)
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Comment, shareStringPart, 3U);
                                 else
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 3U);
@@ -302,7 +448,7 @@ namespace Tyreshop.Utils
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Price.ToString(), shareStringPart, 5U);
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.PayType, shareStringPart, 5U);
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.CardPayed, shareStringPart, 5U);
-                                    if (oper.Comment != string.Empty)
+                                    if (oper.Comment != string.Empty && oper.Comment != null)
                                         cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Comment, shareStringPart, 5U);
                                     else
                                         cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 5U);
@@ -319,7 +465,7 @@ namespace Tyreshop.Utils
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Price.ToString(), shareStringPart);
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.PayType, shareStringPart);
                                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.CardPayed, shareStringPart);
-                                    if (oper.Comment != string.Empty)
+                                    if (oper.Comment != string.Empty && oper.Comment != null)
                                         cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Comment, shareStringPart);
                                     else
                                         cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart);
@@ -337,7 +483,7 @@ namespace Tyreshop.Utils
                             cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Price.ToString(), shareStringPart, 1U);
                             cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.PayType, shareStringPart, 1U);
                             cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.CardPayed, shareStringPart, 1U);
-                            if (oper.Comment != string.Empty)
+                            if (oper.Comment != string.Empty && oper.Comment != null)
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Comment, shareStringPart, 1U);
                             else
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 1U);
@@ -353,7 +499,7 @@ namespace Tyreshop.Utils
                             cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Price.ToString(), shareStringPart, 2U);
                             cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.PayType, shareStringPart, 2U);
                             cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.CardPayed, shareStringPart, 2U);
-                            if (oper.Comment != string.Empty)
+                            if (oper.Comment != string.Empty && oper.Comment != null)
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, oper.Comment, shareStringPart, 2U);
                             else
                                 cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, "", shareStringPart, 2U);
@@ -444,7 +590,7 @@ namespace Tyreshop.Utils
                         cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.Price.ToString(), shareStringPart, 2U);
                         cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.PayType, shareStringPart, 2U);
                         cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.CardPayed, shareStringPart, 2U);
-                        if (oper.Comment != string.Empty)
+                        if (oper.Comment != string.Empty && oper.Comment != null)
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.Comment, shareStringPart, 2U);
                         else
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, "", shareStringPart, 2U);
@@ -462,7 +608,7 @@ namespace Tyreshop.Utils
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.Price.ToString(), shareStringPart, 5U);
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.PayType, shareStringPart, 5U);
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.CardPayed, shareStringPart, 5U);
-                            if (oper.Comment != string.Empty)
+                            if (oper.Comment != string.Empty && oper.Comment != null)
                                 cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.Comment, shareStringPart, 5U);
                             else
                                 cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, "", shareStringPart, 5U);
@@ -479,7 +625,7 @@ namespace Tyreshop.Utils
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.Price.ToString(), shareStringPart);
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.PayType, shareStringPart);
                             cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.CardPayed, shareStringPart);
-                            if (oper.Comment != string.Empty)
+                            if (oper.Comment != string.Empty && oper.Comment != null)
                                 cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, oper.Comment, shareStringPart);
                             else
                                 cellNum = XlsxRutine.InsertCellToRow(serviceRow, cellNum, "", shareStringPart);
@@ -540,6 +686,32 @@ namespace Tyreshop.Utils
                     cellNum = XlsxRutine.InsertCellToRow(lastRow, cellNum, "", shareStringPart);
                     cellNum = XlsxRutine.InsertCellToRow(lastRow, cellNum, "", shareStringPart);
                     sheetData.AppendChild(lastRow);
+                    rowInd++;
+                    cellNum = 1;
+                }
+                Row emptyRow3 = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D };
+                foreach (string s in headerRow)
+                {
+                    cellNum = XlsxRutine.InsertCellToRow(emptyRow3, cellNum, "", shareStringPart);
+                }
+                sheetData.AppendChild(emptyRow3);
+                rowInd++;
+                cellNum = 1;
+                var lst4 = lst2.Where(w => w.OperationType != "Услуга").ToList();
+                
+                foreach (var user in users) {
+                    int totalQuant = 0;
+                    var id = user.UserId;
+                    var tmp = lst4.Where(w => w.UserId == id).Select(s => s.Quantity).ToList();
+                    foreach (var t in tmp) {
+                        totalQuant += t;
+                    }
+                    Row userRow = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D };
+                    cellNum = XlsxRutine.InsertCellToRow(userRow, cellNum, "", shareStringPart);
+                    cellNum = XlsxRutine.InsertCellToRow(userRow, cellNum, "", shareStringPart);
+                    cellNum = XlsxRutine.InsertCellToRow(userRow, cellNum, user.UserName, shareStringPart);
+                    cellNum = XlsxRutine.InsertCellToRow(userRow, cellNum, totalQuant.ToString(), shareStringPart);
+                    sheetData.AppendChild(userRow);
                     rowInd++;
                     cellNum = 1;
                 }

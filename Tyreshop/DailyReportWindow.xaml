@@ -75,8 +75,17 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="2"  VerticalAlignment="Center">
-            <DatePicker Name="SelectDate" SelectedDateChanged="SelectDate_SelectedDateChanged" Width="150" Margin="5,0,5,0"/>
-            <Button Name="GenerateReport" Content="Экспорт отчета в Excel" Click="GenerateReport_Click" Margin="5,0,5,0"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                <DatePicker Name="SelectDate" SelectedDateChanged="SelectDate_SelectedDateChanged" Width="150" Margin="5,0,5,0"/>
+                <Button Name="GenerateReport" Content="Экспорт отчета (текущая дата) в Excel" Click="GenerateReport_Click" Margin="5,0,5,0"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <Label Content="Выбор начала периода" Margin="5,0,5,0"/>
+                <DatePicker Name="SelectDateFrom" Width="150" Margin="5,0,5,0"/>
+                <Label Content="Выбор конца периода" Margin="5,0,5,0"/>
+                <DatePicker Name="SelectDateTo" Width="150" Margin="5,0,5,0"/>
+                <Button Name="GenerateReportPeriod" Content="Экспорт отчета (период) в Excel" Click="GenerateReportPeriod_Click" Margin="5,0,5,0"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

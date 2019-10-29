@@ -86,7 +86,7 @@ namespace Tyreshop.Utils
         public int StorehouseId { get; set; }
         public string Address { get; set; }
         public int ProductId { get; set; }
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
         public int? InOrder { get; set; }
         
     }
