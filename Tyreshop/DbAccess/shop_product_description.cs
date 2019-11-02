@@ -14,7 +14,7 @@ namespace Tyreshop.DbAccess
     
     public partial class shop_product_description
     {
-        public int product_id { get; set; }
+        public uint product_id { get; set; }
         public int language_id { get; set; }
         public string name { get; set; }
         public string description { get; set; }

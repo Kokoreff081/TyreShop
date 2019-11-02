@@ -14,7 +14,7 @@ namespace Tyreshop.DbAccess
     
     public partial class shop_product_to_store
     {
-        public int product_id { get; set; }
+        public uint product_id { get; set; }
         public int store_id { get; set; }
     }
 }

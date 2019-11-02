@@ -247,6 +247,17 @@ namespace Tyreshop
                         var storehouse = db.productquantities.Single(s => s.StorehouseId == store && s.ProductId == product.ProductId);
                         storehouse.Quantity += quant;
                         db.Entry(storehouse).Property(p => p.Quantity).IsModified = true;
+                        if (storehouse.Quantity > 0)
+                            product.ProdStatus = true;
+                        else
+                            product.ProdStatus = false;
+                        if (db.products.Any(a => a.ProductId == product.ProductId))
+                        {
+                            var prod = db.products.Single(s => s.ProductId == product.ProductId);
+                            prod.ProdStatus = product.ProdStatus;
+                            db.Entry(prod).Property(p => p.ProdStatus).IsModified = true;
+                        }
+                        
                         db.SaveChanges();
                         //GridItemSource(category, product.ProductId);
                         MessageBox.Show("Товар успешно оприходован!", "Информация", MessageBoxButton.OK);
@@ -265,17 +276,26 @@ namespace Tyreshop
                         MessageBox.Show("Товар успешно добавлен на указанный склад!", "Информация", MessageBoxButton.OK);
                     }
                 }
-                using (u0324292_mainEntities db2 = new u0324292_mainEntities()) {
+                using (u0324292_mainEntities db2 = new u0324292_mainEntities())
+                {
                     var product = GetProduct(category, ManId, modelId, rad, width, height);
-                    var id = int.Parse(product.Articul);
+                    var id = uint.Parse(product.ProdNumber);
                     if (db2.shop_product.Any(a => a.product_id == id))
                     {
                         var siteProd = db2.shop_product.Single(a => a.product_id == id);
                         siteProd.quantity += quant;
                         db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
-                        db2.SaveChanges();
+                        if (siteProd.quantity >= 0)
+                            db2.SaveChanges();
+                        if (siteProd.quantity >= 0 && siteProd.stock_status_id == 8)
+                        {
+                            siteProd.stock_status_id = 7;
+                            db2.Entry(siteProd).Property(p => p.stock_status_id).IsModified = true;
+                            db2.SaveChangesAsync();
+                        }
                     }
-                    else {
+                    else
+                    {
                         int shopStat = 0;
                         if (quant > 0)//больше нуля - продаем
                             shopStat = 7;
@@ -305,11 +325,59 @@ namespace Tyreshop
                             new shop_product_attribute(){ product_id = int.Parse(product.Articul), attribute_id = 19, text = product.Gruz},//Грузовой
                             new shop_product_attribute(){ product_id = int.Parse(product.Articul), attribute_id = 20, text = product.Spikes},//Шипы
                         };
+                        shop_product_to_category sptc = new shop_product_to_category()
+                        {
+                            category_id = 1,
+                            product_id = id
+                        };
+                        shop_product_to_layout sptl = new shop_product_to_layout()
+                        {
+                            layout_id = 0,
+                            store_id = 0,
+                            product_id = id
+                        };
+                        shop_product_to_store spts = new shop_product_to_store()
+                        {
+                            product_id = id,
+                            store_id = 0
+                        };
+                        string seasonToMetaTitle = "";
+                        switch (product.Season)
+                        {
+                            case "Лето":
+                                seasonToMetaTitle = "Летние";
+                                break;
+                            case "Зима":
+                                seasonToMetaTitle = "Зимние";
+                                break;
+                        }
+                        string productName = manufacturer + " " + model + " " + width + "/" + height + product.Radius + " " + product.InCol + product.IsCol + " " + product.RFT + product.Spikes;
+                        shop_product_description spd = new shop_product_description()
+                        {
+                            product_id = id,
+                            language_id = 1,
+                            name = productName,
+                            description = "",
+                            tag = width + "," + height + "," + product.Radius,
+                            meta_title = seasonToMetaTitle + " шины " + productName + ". Магазин автошин TireShop",
+                            meta_description = seasonToMetaTitle + " шины " + productName + " по " + product.Price * 4 + " руб/шт. Доставка по СПб и в другие регионы",
+                            meta_keyword = ""
+                        };
+                        shop_url_alias sua = new shop_url_alias()
+                        {
+                            query = "product_id=" + id,
+                            keyword = manufacturer + "_" + id
+                        };
                         db2.shop_product.Add(sp);//добавили сам продукт
                         foreach (var item in lst)
                         {//добавляем все атрибуты шин
                             db2.shop_product_attribute.Add(item);
                         }
+                        db2.shop_product_to_category.Add(sptc);
+                        db2.shop_product_to_layout.Add(sptl);
+                        db2.shop_product_to_store.Add(spts);
+                        db2.shop_product_description.Add(spd);
+                        db2.shop_url_alias.Add(sua);
                         db2.SaveChanges();
                     }
                 }
@@ -670,6 +738,11 @@ namespace Tyreshop
                             db.operations.Add(oper);
                             storeHouse.Quantity -= quant;
                             db.Entry(storeHouse).Property(p => p.Quantity).IsModified = true;
+                            if (storeHouse.Quantity > 0)
+                                prod.ProdStatus = true;
+                            else
+                                prod.ProdStatus = false;
+                            db.Entry(prod).Property(p => p.ProdStatus).IsModified = true;
                             db.SaveChanges();
                             MessageBox.Show("Товар успешно списан!", "Информация", MessageBoxButton.OK);
                         }
@@ -678,14 +751,23 @@ namespace Tyreshop
                     }
                     using (u0324292_mainEntities db2 = new u0324292_mainEntities())
                     {
-                        var id = int.Parse(prod.Articul);
+                        var id = int.Parse(prod.ProdNumber);
                         if (db2.shop_product.Any(a => a.product_id == id))
                         {
-                            
                             var siteProd = db2.shop_product.Single(a => a.product_id == id);
                             siteProd.quantity -= quant;
                             db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
-                            db2.SaveChanges();
+                            if (siteProd.quantity >= 0)
+                                db2.SaveChanges();
+                            else
+                                log.Error(siteProd.model + siteProd.quantity + siteProd.product_id + " количество не может быть отрицательным");
+                            if (siteProd.quantity == 0 && siteProd.stock_status_id == 7)
+                            {
+                                siteProd.stock_status_id = 8;
+                                db2.Entry(siteProd).Property(p => p.stock_status_id).IsModified = true;
+                                db2.SaveChangesAsync();
+                            }
+
                         }
                     }
                 }

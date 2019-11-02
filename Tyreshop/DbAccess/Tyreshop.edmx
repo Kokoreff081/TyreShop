@@ -78,6 +78,8 @@
             <PropertyRef Name="ProductId" />
           </Key>
           <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProdNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProdStatus" Type="bool" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="Width" Type="int" Nullable="false" />
           <Property Name="Height" Type="float" Nullable="false" />
@@ -224,6 +226,8 @@
             <PropertyRef Name="ProductId" />
           </Key>
           <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProdNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProdStatus" Type="Boolean" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <Property Name="Width" Type="Int32" Nullable="false" />
           <Property Name="Height" Type="Single" Nullable="false" />
@@ -376,6 +380,8 @@
             <EntityTypeMapping TypeName="u0324292_tyreshopModel.product">
               <MappingFragment StoreEntitySet="products">
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProdNumber" ColumnName="ProdNumber" />
+                <ScalarProperty Name="ProdStatus" ColumnName="ProdStatus" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Width" ColumnName="Width" />
                 <ScalarProperty Name="Height" ColumnName="Height" />

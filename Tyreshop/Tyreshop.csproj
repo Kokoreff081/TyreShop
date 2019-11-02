@@ -28,7 +28,7 @@
     <InstallUrl>http://desktop.eurokoleso.ru/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>24</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -799,19 +799,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DbAccess\Tyreshop.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Tyreshop.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="DbAccess\Eurokoleso.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Eurokoleso.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="DbAccess\Eurokoleso.edmx.diagram">
       <DependentUpon>Eurokoleso.edmx</DependentUpon>
-    </None>
-    <None Include="DbAccess\Tyreshop.edmx.diagram">
-      <DependentUpon>Tyreshop.edmx</DependentUpon>
     </None>
     <Content Include="DbAccess\Eurokoleso.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -823,9 +816,26 @@
       <DependentUpon>Eurokoleso.edmx</DependentUpon>
       <LastGenOutput>Eurokoleso.cs</LastGenOutput>
     </Content>
+    <Content Include="DbAccess\Tyreshop.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Tyreshop.edmx</DependentUpon>
+      <LastGenOutput>Tyreshop.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DbAccess\Tyreshop.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Tyreshop.edmx</DependentUpon>
+      <LastGenOutput>Tyreshop.cs</LastGenOutput>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EntityDeploy Include="DbAccess\Tyreshop.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Tyreshop.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DbAccess\Tyreshop.edmx.diagram">
+      <DependentUpon>Tyreshop.edmx</DependentUpon>
+    </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -857,18 +867,6 @@
     <Resource Include="Images\database_7356.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DbAccess\Tyreshop.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Tyreshop.edmx</DependentUpon>
-      <LastGenOutput>Tyreshop.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DbAccess\Tyreshop.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Tyreshop.edmx</DependentUpon>
-      <LastGenOutput>Tyreshop.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

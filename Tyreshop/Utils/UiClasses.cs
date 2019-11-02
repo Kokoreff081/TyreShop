@@ -68,6 +68,8 @@ namespace Tyreshop.Utils
         public string Address { get; set; }
         public int StorehouseId { get; set; }
         public int? InOrder { get; set; }
+        public string ProdNumber { get; set; }
+        public bool ProdStatus { get; set; }
         public string Country { get; set; }
         public decimal? ComplektPrice { get; set; }
 

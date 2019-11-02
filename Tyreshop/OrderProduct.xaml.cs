@@ -200,22 +200,43 @@ namespace Tyreshop
                                 else
                                     prodQuant.InOrder = quant;
                                 db.Entry(prodQuant).Property(p => p.InOrder).IsModified = true;
+                                var prodsQ = db.productquantities.Where(w => w.ProductId == prodId).ToList();
+                                foreach (var innerItem in prodsQ)
+                                {
+                                    quant += (int)innerItem.Quantity;
+                                }
+                                var product = db.products.Single(s => s.ProductId == prodId);
+                                if (quant > 0)
+                                    product.ProdStatus = true;
+                                else
+                                    product.ProdStatus = false;
+                                db.Entry(product).Property(p => p.ProdStatus).IsModified = true;
                                 db.SaveChanges();
+                                using (u0324292_mainEntities db2 = new u0324292_mainEntities())
+                                {
+                                    var prod = db.products.Single(s => s.ProductId == prodId);
+                                    var id = uint.Parse(prod.ProdNumber);
+                                    if (db2.shop_product.Any(a => a.product_id == id))
+                                    {
+                                        var siteProd = db2.shop_product.Single(a => a.product_id == id);
+                                        siteProd.quantity -= quant;
+                                        db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
+                                        if (siteProd.quantity >= 0)
+                                            db2.SaveChanges();
+                                        else
+                                            log.Error(siteProd.model + siteProd.quantity + siteProd.product_id + " количество не может быть отрицательным");
+                                        if (siteProd.quantity == 0 && siteProd.stock_status_id == 7)
+                                        {
+                                            siteProd.stock_status_id = 8;
+                                            db2.Entry(siteProd).Property(p => p.stock_status_id).IsModified = true;
+                                            db2.SaveChangesAsync();
+                                        }
+                                    }
+                                }
                             }
                             else
                                 MessageBox.Show("На выбранном складе недостаточное количество товара для осуществления брони!", "Информация", MessageBoxButton.OK);
-                            using (u0324292_mainEntities db2 = new u0324292_mainEntities())
-                            {
-                                var prod = db.products.Single(s => s.ProductId == prodId);
-                                var id = int.Parse(prod.Articul);
-                                if (db2.shop_product.Any(a => a.product_id == id))
-                                {
-                                    var siteProd = db2.shop_product.Single(a => a.product_id == id);
-                                    siteProd.quantity -= quant;
-                                    db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
-                                    db2.SaveChanges();
-                                }
-                            }
+                            
                         }
                         LoadOrderList();
                     }
@@ -246,18 +267,36 @@ namespace Tyreshop
                         var prodQuant = db.productquantities.Single(s => s.ProductId == order.ProductId && s.StorehouseId == order.StorehouseId);
                         prodQuant.InOrder -= quant;
                         db.Entry(prodQuant).Property(p => p.InOrder).IsModified = true;
+                        var prodsQ = db.productquantities.Where(w => w.ProductId == order.ProductId).ToList();
+                        foreach (var innerItem in prodsQ)
+                        {
+                            quant -= (int)innerItem.Quantity;
+                        }
+                        var product = db.products.Single(s => s.ProductId == order.ProductId);
+                        if (quant > 0)
+                            product.ProdStatus = true;
+                        else
+                            product.ProdStatus = false;
+                        db.Entry(product).Property(p => p.ProdStatus).IsModified = true;
                         db.SaveChanges();
                         MessageBox.Show("Бронь успешно удалена!", "Информация", MessageBoxButton.OK);
                         using (u0324292_mainEntities db2 = new u0324292_mainEntities())
                         {
                             var prod = db.products.Single(s => s.ProductId == order.ProductId);
-                            var id = int.Parse(prod.Articul);
+                            var id = uint.Parse(prod.ProdNumber);
                             if (db2.shop_product.Any(a => a.product_id == id))
                             {
                                 var siteProd = db2.shop_product.Single(a => a.product_id == id);
                                 siteProd.quantity += quant;
                                 db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
-                                db2.SaveChanges();
+                                if (siteProd.quantity >= 0)
+                                    db2.SaveChanges();
+                                if (siteProd.quantity >= 0 && siteProd.stock_status_id == 8)
+                                {
+                                    siteProd.stock_status_id = 7;
+                                    db2.Entry(siteProd).Property(p => p.stock_status_id).IsModified = true;
+                                    db2.SaveChangesAsync();
+                                }
                             }
                         }
                         LoadOrderList();

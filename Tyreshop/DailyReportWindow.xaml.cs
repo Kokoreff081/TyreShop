@@ -249,16 +249,34 @@ namespace Tyreshop
                                 var pq = db.productquantities.First(s => s.StorehouseId == store && s.ProductId == oper.ProductId);
                                 pq.Quantity += quant;
                                 db.Entry(pq).Property(x => x.Quantity).IsModified = true;
+                                var prodsQ = db.productquantities.Where(w => w.ProductId == item.ProductId).ToList();
+                                foreach (var innerItem in prodsQ)
+                                {
+                                    quant += (int)innerItem.Quantity;
+                                }
+                                var product = db.products.Single(s => s.ProductId == item.ProductId);
+                                if (quant > 0)
+                                    product.ProdStatus = true;
+                                else
+                                    product.ProdStatus = false;
+                                db.Entry(product).Property(p => p.ProdStatus).IsModified = true;
                                 using (u0324292_mainEntities db2 = new u0324292_mainEntities())
                                 {
                                     //var prod = db.products.Single(s => s.ProductId == prodId);
-                                    var id = int.Parse(prod.Articul);
+                                    var id = int.Parse(prod.ProdNumber);
                                     if (db2.shop_product.Any(a => a.product_id == id))
                                     {
                                         var siteProd = db2.shop_product.Single(a => a.product_id == id);
                                         siteProd.quantity += quant;
                                         db2.Entry(siteProd).Property(p => p.quantity).IsModified = true;
-                                        db2.SaveChanges();
+                                        if (siteProd.quantity >= 0)
+                                            db2.SaveChanges();
+                                        if (siteProd.quantity >= 0 && siteProd.stock_status_id == 8)
+                                        {
+                                            siteProd.stock_status_id = 7;
+                                            db2.Entry(siteProd).Property(p => p.stock_status_id).IsModified = true;
+                                            db2.SaveChangesAsync();
+                                        }
                                     }
                                 }
                             }

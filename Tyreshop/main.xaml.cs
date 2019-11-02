@@ -18,6 +18,7 @@ using MoreLinq;
 using Microsoft.Win32;
 using System.Windows.Threading;
 using NLog;
+using System.Data.Entity.Validation;
 
 namespace Tyreshop
 {
@@ -65,8 +66,81 @@ namespace Tyreshop
             tbFilters.Add(Gruz);
             tbFilters.Add(Radius);
             tmp = new List<BdProducts>();
+            //RenamingFields();//метод на один раз, перебить все нужные номера на новые по согласованию с Арой
             
-            
+        }
+
+        private void RenamingFields() {
+            using (u0324292_tyreshopEntities db = new u0324292_tyreshopEntities()) {
+                var prods = db.products.OrderBy(o=>o.ManufacturerId).ThenBy(t=>t.ModelId).ToList();
+                var prodsQ = db.productquantities.ToList();
+                int counter = 1;
+                int tmpManufacturer = 0, tmpModel=0;
+                foreach (var item in prods) {
+
+                    //if (item.Articul != string.Empty)
+                    //    item.Articul = "";
+                    string manuf = "", model = "", count="";
+                    if (item.ManufacturerId < 10)
+                        manuf = "0" + item.ManufacturerId;
+                    else
+                        manuf = item.ManufacturerId.ToString();
+                    if (item.ModelId < 10)
+                        model = "00" + item.ModelId;
+                    else if (item.ModelId < 100 && item.ModelId >= 10)
+                        model = "0" + item.ModelId.ToString();
+                    else
+                        model = item.ModelId.ToString();
+                    if (counter < 10)
+                        count = "000" + counter;
+                    else if(counter < 100 && counter>=10)
+                        count = "00" + counter;
+                    else if (counter < 1000 && counter >= 100)
+                        count = "0" + counter;
+                    else
+                        count = counter.ToString();
+                    item.ProdNumber = item.CategoryId + "" + manuf+model+count;
+                    if (item.ManufacturerId != tmpManufacturer || item.ModelId != tmpModel)
+                        counter = 1;
+                    else
+                        counter++;
+                    tmpManufacturer = item.ManufacturerId;
+                    tmpModel = item.ModelId;
+                    //var itemQuants = prodsQ.Where(w => w.ProductId == item.ProductId).ToList();
+                    //int quant = 0;
+                    //foreach (var innerItem in itemQuants) {
+                    //    quant += (int)innerItem.Quantity;
+                    //}
+                    //if (quant != 0)
+                    //    item.ProdStatus = true;
+                    //else
+                    //    item.ProdStatus = false;
+
+                    //db.Entry(item).Property(p => p.ProdStatus).IsModified = true;
+                    //quant = 0;
+                    db.Entry(item).Property(p => p.ProdNumber).IsModified = true;
+                    //db.Entry(item).Property(p => p.Articul).IsModified = true;
+                    
+                }
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    throw;
+                }
+            }
         }
 
         private void FillLoadControls() {
@@ -239,6 +313,8 @@ namespace Tyreshop
                         ProductId = p.ProductId,
                         ModelId = p.ModelId,
                         Articul = p.Articul,
+                        ProdNumber = p.ProdNumber,
+                        ProdStatus = p.ProdStatus,
                         Gruz = p.Gruz,
                         Height = p.Height,
                         InCol = p.InCol,
@@ -269,6 +345,7 @@ namespace Tyreshop
                             StorehouseId = pq1.StorehouseId
                         }).ToList()//pq.StorehouseId
                     })
+                        
                         .OrderBy(o => o.Manufacturer.Trim())
                         .ThenBy(t => t.Model.Trim())
                         .ThenBy(t => t.Model.Trim())

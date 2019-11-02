@@ -111,7 +111,7 @@ namespace Tyreshop.Utils
                     string sizes = prod.Width + ", " + prod.Height + ", " + prod.Radius;
                     Row prodRow = new Row() { RowIndex = rowInd, CustomHeight = true, DyDescent = 0.25D };
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Season, shareStringPart, 5U);//a
-                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Articul, shareStringPart, 3U);//b
+                    cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.ProdNumber, shareStringPart, 3U);//b
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, sizes, shareStringPart,3U);//c
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Manufacturer, shareStringPart, 4U);//d
                     cellNum = XlsxRutine.InsertCellToRow(prodRow, cellNum, prod.Model, shareStringPart, 4U);//e
